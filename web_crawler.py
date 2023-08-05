@@ -35,6 +35,3 @@ class crawler:
 
             engine.search(self.query, self.number_of_pages)
             engine.output(self.output, self.outfilename)
-
-crawler_engine = crawler("google", number_of_pages=config.SEARCH_ENGINE_RESULTS_PAGES)
-crawler_engine.crawl()
