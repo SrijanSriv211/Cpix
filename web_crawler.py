@@ -3,7 +3,7 @@ from search_engines.multiple_search_engines import MultipleSearchEngines, AllSea
 from search_engines import config
 
 class crawler:
-    def __init__(self, query, search_engines=["google"], output="print", outfilename=config.OUTPUT_DIR+"output", number_of_pages=1, filer_results=None, ignore_duplicates=True, proxy=config.PROXY):
+    def __init__(self, query, search_engines=["google"], output="print", outfilename=config.OUTPUT_DIR+"output", number_of_pages=1, filer_results=[], ignore_duplicates=True, proxy=config.PROXY):
         self.query = query
         self.search_engines = search_engines
         self.output = output
@@ -13,9 +13,9 @@ class crawler:
         self.ignore_duplicates = ignore_duplicates
         self.proxy = proxy
 
-    def main(self):
+    def crawl(self):
         timeout = config.TIMEOUT + (10 * bool(self.proxy))
-        engines = [e for e in self.search_engines.lower() if e in search_engines_dict or e == 'all']
+        engines = [e for e in self.search_engines if e in search_engines_dict or e == 'all']
         if not engines:
             print('Please choose a search engine: ' + ', '.join(search_engines_dict))
 
@@ -35,3 +35,6 @@ class crawler:
 
             engine.search(self.query, self.number_of_pages)
             engine.output(self.output, self.outfilename)
+
+crawler_engine = crawler("google", number_of_pages=config.SEARCH_ENGINE_RESULTS_PAGES)
+crawler_engine.crawl()
