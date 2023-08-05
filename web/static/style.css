@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+
+:root
+{
+    --black: #393939;
+    --grey: #414342;
+    --white: #F2F6FE;
+    --blue: #2A6BBF;
+}
+
+::-webkit-scrollbar
+{
+    width: 8px;
+    background: white;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: var(--black);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover
+{
+    background: var(--grey);
+}
+
+*
+{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body
+{
+    color: var(--black);
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--white);
+}
+
+nav ul
+{
+    display: flex;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+nav ul li
+{
+    margin: 30px 40px;
+    cursor: pointer;
+}
+
+nav ul li a
+{
+    color: var(--black);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+nav ul li a:hover
+{
+    text-decoration: underline;
+    transition: 0.2s;
+}
+
+.title
+{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    text-align: center;
+    font-size: 100px;
+    font-weight: 700;
+    cursor: default;
+    color: var(--black);
+}
+
+.inputbox
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+    color: var(--black);
+    background-color: white;
+    border: 1px solid var(--grey);
+    outline: none;
+    border-radius: 10px;
+    width: 900px;
+    height: 55px;
+    padding-left: 16px;
+    padding-right: 16px;
+    transition: 0.2s;
+}
+
+.inputbox:hover
+{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    transition: 0.2s;
+}
+
+.inputbtn
+{
+    position: absolute;
+    top: 50%;
+    left: 73.4%;
+    transform: translate(-73.4%, -50%);
+    font-size: 15px;
+    color: var(--grey);
+    background-color: white;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.inputbtn:hover
+{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    transition: 0.2s;
+}
