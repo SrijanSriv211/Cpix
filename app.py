@@ -7,14 +7,14 @@ app = Flask(__name__, template_folder="web\\templates", static_folder="web\\stat
 def index_get():
     return render_template("index.html")
 
-@app.route("/", methods=["POST"])
-def form_post():
+@app.route("/search", methods=["POST"])
+def search():
     text = request.form["query"]
 
     print(text)
     crawler_engine = crawler(text)
     crawler_engine.crawl()
 
-    return render_template("index.html")
+    return "This is a test."
 
 # app.run(port=8000)

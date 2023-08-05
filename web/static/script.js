@@ -29,9 +29,17 @@ function Focus_on_inputbox()
 
 function SendMessage()
 {
-    var data = $('#inputbox').val();
+    // JavaScript function to handle form submission
+    document.getElementById("search-bar").onsubmit = function(event)
+    {
+        event.preventDefault(); // Prevent default form submission
+        const query = document.getElementById("queryInput").value;
+        crawl(query); // Call the crawl function with the query
+    };
+
+    var data = $('.inputbox').val();
     $.ajax({
-        url: '/predict',
+        url: '/search',
         type: 'POST',
         data: { 'input': data },
         success: function (response)
