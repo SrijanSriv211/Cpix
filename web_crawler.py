@@ -79,8 +79,8 @@ T1 = [
 
 S1 = ""
 list_of_queries = []
-crawler_engine = crawler(filename="data\\index")
-for i in range(2000):
+crawler_engine = crawler(filename="data\\scraped_sites")
+for i in range(500):
     S1 = " ".join(arrange_words(T1).split())
 
     if S1 in list_of_queries: continue
