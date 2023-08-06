@@ -19,15 +19,16 @@
     <div class="search-container">
         <h3 class="title">Cpix</h3>
         <form method="POST" id="search-bar">
-            <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" onkeydown="isEnter();" autofocus required>
-            <button class="inputbtn" onclick="SendMessage();"><i class="material-symbols-outlined">search</i></button>
+            <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" autofocus required>
+            <button class="inputbtn"><i class="material-symbols-outlined">search</i></button>
         </form>
     </div>
     <div class="results-container">
         <ul id="results">
-            <li>{{results}}</li>
+            <!-- <li><a href="">{{results}}</a></li> -->
         </ul>
     </div>
     <script> Focus_on_inputbox(); </script>
+    <script> SendMessage(); </script>
 </body>
 </html>

@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-from web_crawler import crawler
 
 app = Flask(__name__, template_folder="web\\templates", static_folder="web\\static")
 
@@ -10,11 +9,7 @@ def index_get():
 @app.route("/", methods=["POST"])
 def search():
     text = request.form["query"]
-
     print(text)
-    crawler_engine = crawler(text)
-    crawler_engine.crawl()
-
     return render_template("index.html", results="This is a test search result")
 
 # app.run(port=8000)

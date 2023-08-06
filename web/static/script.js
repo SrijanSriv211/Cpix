@@ -1,15 +1,3 @@
-function isEnter()
-{
-    const inputbox = document.getElementById("inputbox");
-    inputbox.addEventListener("keyup", function (e)
-    {
-        if (inputbox.value != "") {
-            if (e.key === "Enter");
-                // SendMessage();
-        }
-    });
-}
-
 function Focus_on_inputbox()
 {
     var inputbox = document.getElementById("inputbox");
@@ -30,20 +18,27 @@ function Focus_on_inputbox()
     });
 }
 
-// function SendMessage()
-// {
-//     // JavaScript function to handle form submission
-//     document.getElementById("search-bar").onsubmit = function(event)
-//     {
-//         event.preventDefault(); // Prevent default form submission
-//         const query = document.getElementById("inputbox").value;
-//         search(query);
-//     };
+function SendMessage()
+{
+    // // JavaScript function to handle form submission
+    // document.getElementById("search-bar").onsubmit = function(event)
+    // {
+    //     event.preventDefault(); // Prevent default form submission
+    //     const query = document.getElementById("inputbox").value;
+    //     search(query);
+    // };
 
-//     function search(query)
-//     {
-//         console.log(query);
-//     }
+    // JavaScript function to handle form submission
+    const query = document.getElementById("inputbox").value;
 
-//     // document.getElementById("inputbox").value = "";
-// }
+    // Create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/");
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    // Send the data to the Flask route
+    const data = JSON.stringify({
+        "query": query
+    });
+    xhr.send(data);
+}

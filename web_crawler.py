@@ -1,6 +1,7 @@
 from search_engines.engines import search_engines_dict
 from search_engines.multiple_search_engines import MultipleSearchEngines, AllSearchEngines
 from search_engines import config
+from utils import arrange_words
 import numpy, json, os
 
 class crawler:
@@ -48,26 +49,6 @@ class crawler:
         # Close the Json file and Delete the temp.json file.
         json_file.close()
         os.remove("temp.json")
-
-# Arrange words in such a way to form a logical sentence.
-def arrange_words(tokens):
-    """
-    A number will represent the number of empty strings in a list.
-    For example: 4 -> ["", "", "", ""].
-    """
-
-    processed_tokens = []
-    for sublist in tokens:
-        if isinstance(sublist[-1], int):
-            empty_list = [""] * sublist[-1]
-            processed_tokens.append(sublist[:-1] + empty_list)
-
-        else:
-            processed_tokens.append(sublist)
-
-    # Construct a logical sentence.
-    sentence = [numpy.random.choice(i).strip() for i in processed_tokens]
-    return " ".join(sentence)
 
 T1 = [
 ["class"], ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
