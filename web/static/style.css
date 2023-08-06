@@ -71,16 +71,12 @@ nav ul li a:hover
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
     height: 50vh;
 }
 
 .title
 {
-    /* position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -30%); */
-    /* text-align: center; */
     margin-bottom: 20px;
     font-size: 100px;
     font-weight: 700;
@@ -88,13 +84,16 @@ nav ul li a:hover
     color: var(--black);
 }
 
-/*
+#search-bar
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
 #inputbox
 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-size: 22px;
     color: var(--black);
     background-color: white;
@@ -123,11 +122,9 @@ nav ul li a:hover
 .inputbtn
 {
     position: absolute;
-    top: 50%;
-    left: 73.4%;
-    transform: translate(-73.4%, -50%);
+    top: 18px;
+    right: 18px;
     font-size: 20px;
-    text-align: center;
     padding-top: 3px;
     color: var(--grey);
     background-color: white;
@@ -137,6 +134,7 @@ nav ul li a:hover
     width: 40px;
     height: 40px;
     cursor: pointer;
+    aspect-ratio: 1;
     transition: 0.2s;
 }
 
@@ -149,4 +147,4 @@ nav ul li a:hover
 #results
 {
     position: relative;
-} */
+}
