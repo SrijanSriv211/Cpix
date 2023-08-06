@@ -65,20 +65,31 @@ nav ul li a:hover
     transition: 0.2s;
 }
 
+.search-container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+}
+
 .title
 {
-    position: absolute;
+    /* position: absolute;
     top: 30%;
     left: 50%;
-    transform: translate(-50%, -30%);
-    text-align: center;
+    transform: translate(-50%, -30%); */
+    /* text-align: center; */
+    margin-bottom: 20px;
     font-size: 100px;
     font-weight: 700;
     cursor: default;
     color: var(--black);
 }
 
-.inputbox
+/*
+#inputbox
 {
     position: absolute;
     top: 50%;
@@ -97,13 +108,13 @@ nav ul li a:hover
     transition: 0.2s;
 }
 
-.inputbox:hover
+#inputbox:hover
 {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
     transition: 0.2s;
 }
 
-.inputbox:focus
+#inputbox:focus
 {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
     transition: 0.2s;
@@ -115,7 +126,9 @@ nav ul li a:hover
     top: 50%;
     left: 73.4%;
     transform: translate(-73.4%, -50%);
-    font-size: 15px;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 3px;
     color: var(--grey);
     background-color: white;
     border: none;
@@ -133,43 +146,7 @@ nav ul li a:hover
     transition: 0.2s;
 }
 
-.results-container
+#results
 {
-    padding-top: 100px;
-    padding-left: 40px;
-    font-size: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 10px;
-    width: 190vh;
-    height: 85vh;
-    overflow-y: scroll;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
-}
-
-.closebtn
-{
-    position: absolute;
-    top: 2%;
-    left: 99.5%;
-    transform: translate(-99.5%, -2%);
-    font-size: 15px;
-    color: var(--grey);
-    background-color: white;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.closebtn:hover
-{
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
-    transition: 0.2s;
-}
+    position: relative;
+} */

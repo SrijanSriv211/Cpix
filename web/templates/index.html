@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
+    <script src="../static/script.js"></script>
     <nav>
         <ul>
             <li><a title="Star on Github." href="https://github.com/Light-Lens/Cpix" target="_blank">Github</a></li>
@@ -18,19 +19,150 @@
     <div class="search-container">
         <h3 class="title">Cpix</h3>
         <form method="POST" id="search-bar">
-            <input class="inputbox" type="text" name="query" autocomplete="off" onkeydown="isEnter();" autofocus required>
+            <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" onkeydown="isEnter();" autofocus required>
             <button class="inputbtn" onclick="SendMessage();"><i class="material-symbols-outlined">search</i></button>
         </form>
     </div>
     <div class="results-container">
-        <button class="closebtn" onclick="CloseSearchPanel();"><i class="material-symbols-outlined">close</i></button>
         <ul id="results">
-            <!-- All the results will go here. -->
-            <!-- <li id="CalculatedAns"></li> This is the template.-->
-            <li>Test</li>
+            <li>{{query}}</li>
+            <!-- <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li>
+            <li>{{query}}</li> -->
         </ul>
     </div>
-    <script src="../static/script.js"></script>
     <script> Focus_on_inputbox(); </script>
 </body>
 </html>

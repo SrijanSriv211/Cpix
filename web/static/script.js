@@ -1,35 +1,33 @@
 function isEnter()
 {
     const inputbox = document.getElementById("inputbox");
-    if (inputbox.value != "") {
-        if (keyCode == 13);
-            // SendMessage();
-    }
+    inputbox.addEventListener("keyup", function (e)
+    {
+        if (inputbox.value != "") {
+            if (e.key === "Enter");
+                // SendMessage();
+        }
+    });
 }
 
 function Focus_on_inputbox()
 {
-    const inputbox = document.getElementById("inputbox");
+    var inputbox = document.getElementById("inputbox");
     document.addEventListener("keyup", function (e)
     {
         let isFocused = (document.activeElement === inputbox);
         if (!isFocused)
         {
-            if (e.keyCode == 191)
+            if (e.key === "/")
                 inputbox.focus();
         }
 
         else if (isFocused)
         {
-            if (e.keyCode == 27)
+            if (e.key === "Escape")
                 inputbox.blur();
         }
     });
-}
-
-function CloseSearchPanel()
-{
-    // code here.
 }
 
 // function SendMessage()

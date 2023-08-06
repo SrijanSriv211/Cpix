@@ -15,6 +15,6 @@ def search():
     crawler_engine = crawler(text)
     crawler_engine.crawl()
 
-    return render_template("index.html")
+    return render_template("index.html", query=request.form["query"])
 
 # app.run(port=8000)
