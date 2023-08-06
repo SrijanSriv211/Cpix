@@ -11,22 +11,24 @@
 </head>
 <body>
     <script src="../static/script.js"></script>
-    <nav>
-        <ul>
-            <li><a title="Star on Github." href="https://github.com/Light-Lens/Cpix" target="_blank">Github</a></li>
-        </ul>
-    </nav>
-    <div class="search-container">
-        <h3 class="title">Cpix</h3>
-        <form method="POST" id="search-bar">
-            <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" autofocus required>
-            <button class="inputbtn"><i class="material-symbols-outlined">search</i></button>
-        </form>
-    </div>
     <div class="results-container">
         <ul id="results">
             <!-- <li><a href="">{{results}}</a></li> -->
         </ul>
+    </div>
+    <div class="title-bar">
+        <nav>
+            <ul>
+                <li><a title="Star on Github." href="https://github.com/Light-Lens/Cpix" target="_blank">Github</a></li>
+            </ul>
+        </nav>
+        <h3 class="title">Cpix</h3>
+    </div>
+    <div class="search-container">
+        <form method="POST" id="search-bar">
+            <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" autofocus required>
+            <button class="inputbtn"><i class="material-symbols-outlined">search</i></button>
+        </form>
     </div>
     <script> Focus_on_inputbox(); </script>
     <script> SendMessage(); </script>
