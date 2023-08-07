@@ -1,12 +1,11 @@
-from pprint import pprint
+from flask import Flask, render_template, request
 from utils import text_similarity
+from pprint import pprint
 import json
 
-print("STARTING:")
+site_metadata = []
 json_file = open("data\\index.json", "r", encoding="utf-8")
 content = json.load(json_file)
-
-site_metadata = []
 for idx, ele in enumerate(content):
     site_metadata.append({
         "title": ele["Title"],
@@ -14,7 +13,18 @@ for idx, ele in enumerate(content):
         "index": idx
     })
 
-sentence = "Google's Quantum Computer Achieves Quantum Supremacy"
+app = Flask(__name__, template_folder="web\\templates", static_folder="web\\static")
 
-ranked_sites = text_similarity(sentence, site_metadata)
-pprint(ranked_sites)
+@app.get("/")
+def index_get():
+    return render_template("index.html")
+
+@app.route("/", methods=["POST"])
+def search():
+    text = request.form["query"]
+    results = text_similarity(text, site_metadata)
+    print("SEARCH QUERY:", text)
+    pprint("RESULTS JSON:", results)
+    return render_template("index.html", results=results)
+
+# app.run(port=8000)
