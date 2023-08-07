@@ -61,7 +61,7 @@ def text_similarity(sentence, dict_of_sents):
     clean_sent2 = [[lemmatize(word) for word in toks] for toks in clean_lis_of_toks]
 
     # Save only those websites which share keywords with the input sentence.
-    num_of_sites_to_be_ranked = 100
+    num_of_sites_to_be_ranked = 10
     pre_ranked_sites = [
         {
             "match_name": " ".join(sent),
