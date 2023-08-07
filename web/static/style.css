@@ -169,10 +169,11 @@ nav ul li a:hover
 
 #results li
 {
+    height: 45px;
     border: none;
     border-radius: 5px;
-    margin: 25px 70px;
-    padding-top: 15px;
+    margin: 35px 35px;
+    padding-top: 35px;
     padding-bottom: 20px;
     padding-left: 20px;
     padding-right: 20px;
