@@ -9,11 +9,13 @@ content = json.load(json_file)
 site_metadata = []
 for idx, ele in enumerate(content):
     site_metadata.append({
-        "title": ele["Title"].lower(),
-        "url": ele["URL"]
+        "title": ele["Title"],
+        "url": ele["URL"],
+        "index": idx
     })
 
 sentence = "Google's Quantum Computer Achieves Quantum Supremacy"
 
 ranked_sites = text_similarity(sentence, site_metadata)
 pprint(ranked_sites)
+print(site_metadata[1691]["title"])

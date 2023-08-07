@@ -49,14 +49,6 @@ def arrange_words(tokens):
     return " ".join(sentence)
 
 def text_similarity(sentence, dict_of_sents):
-    """
-    sentence: string,
-    lis_of_sents (list of sentences): list
-
-    Code refrence from:
-    https://stackoverflow.com/a/65201576/18121288
-    """
-
     lis_of_sents = [i["title"] for i in dict_of_sents]
 
     tokens = tokenize(sentence.lower())
@@ -71,33 +63,46 @@ def text_similarity(sentence, dict_of_sents):
     # Save only those websites which share keywords with the input sentence.
     num_of_sites_to_be_ranked = 10
     pre_ranked_sites = [
-        [" ".join(sent), len(set(clean_sent1) & set(sent))]
-        for sent in clean_sent2
+        {
+            "match_name": " ".join(sent),
+            "match_index": idx,
+            "match_score": len(set(clean_sent1) & set(sent))
+        }
+        for idx, sent in enumerate(clean_sent2)
         if len(set(clean_sent1) & set(sent)) > 0
     ]
 
-    sorted_pre_ranked_sites = sorted(pre_ranked_sites, key=lambda x: x[1], reverse=True)
-    # limited_sorted_pre_ranked_sites = sorted_pre_ranked_sites[:num_of_sites_to_be_ranked]
-    limited_sorted_pre_ranked_sites = [i[0] for i in sorted_pre_ranked_sites][:num_of_sites_to_be_ranked]
+    sorted_pre_ranked_sites = sorted(pre_ranked_sites, key=lambda x: x["match_score"], reverse=True)
+    limited_sorted_pre_ranked_sites = [i["match_name"] for i in sorted_pre_ranked_sites][:num_of_sites_to_be_ranked]
 
     sentences = []
     sentences.append(" ".join(clean_sent1))
     sentences.extend(limited_sorted_pre_ranked_sites)
 
+    # Code refrence from: https://stackoverflow.com/a/65201576/18121288
     model = SentenceTransformer("distilbert-base-nli-mean-tokens")
     sentence_embeddings = model.encode(sentences)
 
     cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
     b = torch.from_numpy(sentence_embeddings)
 
+    from pprint import pprint
+    pprint(sentences)
+
+    duplicates = []
     similarities = []
-    for idx, _ in enumerate(sentences):
-        if idx > 0:
-            similarities.append({
-                "title": lis_of_sents[idx-1],
-                "url": dict_of_sents[idx-1]["url"],
-                "score": cos(b[0], b[idx-1]).item()
-            })
+    for idx, ele in enumerate(sorted_pre_ranked_sites[:num_of_sites_to_be_ranked]):
+        title = ele["match_name"]
+        if title in duplicates:
+            continue
+
+        similarities.append({
+            "title": dict_of_sents[ele["match_index"]]["title"],
+            "url": dict_of_sents[ele["match_index"]]["url"],
+            "score": cos(b[0], b[idx+1]).item(),
+        })
+
+        duplicates.append(title)
 
     sorted_similarities = sorted(similarities, key=lambda x: x["score"], reverse=True)
     return sorted_similarities
