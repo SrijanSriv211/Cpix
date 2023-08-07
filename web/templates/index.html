@@ -13,7 +13,11 @@
     <script src="../static/script.js"></script>
     <div class="results-container">
         <ul id="results">
-            <!-- <li><a href="">{{results}}</a></li> -->
+            {% for result in results %}
+                <li>
+                    <a href="{{ result.url }}">{{ result.title }}</a>
+                </li>
+            {% endfor %}
         </ul>
     </div>
     <div class="title-bar">

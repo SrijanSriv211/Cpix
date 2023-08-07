@@ -10,6 +10,20 @@ def index_get():
 def search():
     text = request.form["query"]
     print(text)
-    return render_template("index.html", results="This is a test search result")
+
+    # results = [
+    # "This is a test search result", "Test2"
+    # ]
+    results = [
+        {
+            "title": "This is a test search result",
+            "url": "https://google.com"
+        },
+        {
+            "title": "Test2",
+            "url": "https://youtube.com"
+        }
+    ]
+    return render_template("index.html", results=results)
 
 # app.run(port=8000)
