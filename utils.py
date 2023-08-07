@@ -77,7 +77,8 @@ def text_similarity(sentence, dict_of_sents):
     ]
 
     sorted_pre_ranked_sites = sorted(pre_ranked_sites, key=lambda x: x[1], reverse=True)
-    limited_sorted_pre_ranked_sites = sorted_pre_ranked_sites[:num_of_sites_to_be_ranked]
+    # limited_sorted_pre_ranked_sites = sorted_pre_ranked_sites[:num_of_sites_to_be_ranked]
+    limited_sorted_pre_ranked_sites = [i[0] for i in sorted_pre_ranked_sites][:num_of_sites_to_be_ranked]
 
     sentences = []
     sentences.append(" ".join(clean_sent1))
