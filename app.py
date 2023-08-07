@@ -24,7 +24,7 @@ def search():
     text = request.form["query"]
     results = text_similarity(text, site_metadata)
     print("SEARCH QUERY:", text)
-    pprint("RESULTS JSON:", results)
+    pprint(results)
     return render_template("index.html", results=results)
 
 # app.run(port=8000)

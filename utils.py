@@ -4,11 +4,11 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 import torch.nn, numpy, nltk
 
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
-nltk.download('nps_chat')
-nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('wordnet')
+# nltk.download('omw-1.4')
+# nltk.download('nps_chat')
+# nltk.download('stopwords')
 
 stemmer = PorterStemmer()
 Lemmatizer = WordNetLemmatizer()
