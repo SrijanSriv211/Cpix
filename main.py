@@ -1,37 +1,19 @@
+from pprint import pprint
 from utils import text_similarity
 import json
-
-from pprint import pprint
 
 print("STARTING:")
 json_file = open("data\\index.json", "r", encoding="utf-8")
 content = json.load(json_file)
 
-title_metadata = []
+site_metadata = []
 for idx, ele in enumerate(content):
-    title_metadata.append({
+    site_metadata.append({
         "title": ele["Title"].lower(),
-        "index": idx
+        "url": ele["URL"]
     })
 
-sentence = "Long Walk to Freedom Chapter Explanation"
-pprint(text_similarity(sentence, title_metadata))
+sentence = "Class 10 English Chapter 19 FlexiPrep"
 
-#     data = {
-#         "title": "",
-#         "url": "",
-#         "score": 0
-#     }
-
-#     score = text_similarity(sentence1, i["Title"])
-#     if score < 0.6:
-#         continue
-
-#     data["title"] = i["Title"]
-#     data["url"] = i["URL"]
-#     data["score"] = score
-#     results.append(data)
-
-
-# sorted_results = sorted(results, key=lambda x: x["score"], reverse=True)
-# pprint(sorted_results[:20])
+ranked_sites = text_similarity(sentence, site_metadata)
+pprint(ranked_sites)

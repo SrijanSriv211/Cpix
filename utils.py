@@ -88,8 +88,8 @@ def text_similarity(sentence, dict_of_sents):
         if idx > 0:
             similarities.append({
                 "title": lis_of_sents[idx-1],
-                "index": dict_of_sents[idx-1]["index"],
-                "score": cos(b[0], b[idx-1])
+                "url": dict_of_sents[idx-1]["url"],
+                "score": cos(b[0], b[idx-1]).item()
             })
 
     sorted_similarities = sorted(similarities, key=lambda x: x["score"], reverse=True)
