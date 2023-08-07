@@ -2,8 +2,8 @@
 
 :root
 {
-    --black: #393939;
-    --grey: #414342;
+    --black: #1f1f1f;
+    --grey: #404040;
     --white: #F2F6FE;
     --blue: #2A6BBF;
 }
@@ -149,7 +149,6 @@ nav ul li a:hover
 
 .results-container
 {
-    /* padding: 50px; */
     font-size: 20px;
     position: absolute;
     top: 50%;
@@ -170,11 +169,23 @@ nav ul li a:hover
 
 #results li
 {
-    margin: 100px;
-    margin-bottom: 125px;
+    border: none;
+    border-radius: 5px;
+    margin: 25px 70px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    transition: 0.2s;
 }
 
-#results li a
+#results li:hover
+{
+    background-color: var(--white);
+    transition: 0.2s;
+}
+
+#results #result-title
 {
     cursor: pointer;
     font-weight: bold;
@@ -182,7 +193,16 @@ nav ul li a:hover
 	text-decoration: none;
 }
 
-#results li a:hover
+#results #result-title:hover
 {
 	text-decoration: underline;
+}
+
+#results #result-url
+{
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--grey);
+	text-decoration: none;
 }
