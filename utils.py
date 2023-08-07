@@ -61,11 +61,12 @@ def text_similarity(sentence, dict_of_sents):
     clean_sent2 = [[lemmatize(word) for word in toks] for toks in clean_lis_of_toks]
 
     # Save only those websites which share keywords with the input sentence.
-    num_of_sites_to_be_ranked = 10
+    num_of_sites_to_be_ranked = 100
     pre_ranked_sites = [
         {
             "match_name": " ".join(sent),
             "match_index": idx,
+            "match_url": dict_of_sents[idx]["url"],
             "match_score": len(set(clean_sent1) & set(sent))
         }
         for idx, sent in enumerate(clean_sent2)
@@ -89,8 +90,8 @@ def text_similarity(sentence, dict_of_sents):
     duplicates = []
     similarities = []
     for idx, ele in enumerate(sorted_pre_ranked_sites[:num_of_sites_to_be_ranked]):
-        title = ele["match_name"]
-        if title in duplicates:
+        URL = ele["match_url"]
+        if URL in duplicates:
             continue
 
         similarities.append({
@@ -99,7 +100,7 @@ def text_similarity(sentence, dict_of_sents):
             "score": cos(b[0], b[idx+1]).item(),
         })
 
-        duplicates.append(title)
+        duplicates.append(URL)
 
     sorted_similarities = sorted(similarities, key=lambda x: x["score"], reverse=True)
     return sorted_similarities
