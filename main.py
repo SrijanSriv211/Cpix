@@ -1,8 +1,30 @@
-# from utils import cosine_similarity
+from utils import text_similarity
+import json
 
-# if __name__ == "__main__":
-#     sentence1 = "how many fortune 500 companies are there in india"
-#     sentence2 = "How many companies from india are on fortune 500 Brainly.in"
+from pprint import pprint
 
-#     similarity = cosine_similarity(sentence1, sentence2)
-#     print(similarity)
+sentence1 = "class 10 english chapter 1 lecture"
+
+json_file = open("data\\index.json", "r", encoding="utf-8")
+content = json.load(json_file)
+
+results = []
+for i in content:
+    data = {
+        "title": "",
+        "url": "",
+        "score": 0
+    }
+
+    score = text_similarity(sentence1, i["Title"])
+    if score < 0.6:
+        continue
+
+    data["title"] = i["Title"]
+    data["url"] = i["URL"]
+    data["score"] = score
+    results.append(data)
+
+
+sorted_results = sorted(results, key=lambda x: x["score"], reverse=True)
+pprint(sorted_results[:20])

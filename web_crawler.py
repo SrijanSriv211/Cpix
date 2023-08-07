@@ -30,7 +30,7 @@ class crawler:
         self.__format_result__()
 
     def __format_result__(self):
-        json_file = open(f"temp.json", "r", encoding="utf-8")
+        json_file = open("temp.json", "r", encoding="utf-8")
         content = json.load(json_file)
         for engine in content["results"]:
             for result in content["results"][engine]:
@@ -53,7 +53,7 @@ class crawler:
 T1 = [
 ["class"], ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
 ["maths", "english", "hindi", "social science", "science", "physics", "chemistry", "biology", "economics", "civics", "history", "geography"],
-["chapter"], ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" "all"],
+["chapter"], ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "all"],
 ["learncbse", "byjus", "vedantu", "tiwari academy", "topper", "brainly", "youtube", "physics wallah", "magnet brains", "unacademy", "pw", "google scholar", "meritnation", "extramarks", "class saathi", "study rankers", "innovative gyan", "jagran josh", "myCBSEguide", "smart study point", "study iq education", "wifistudy", "khan gs research centre", "right to shiksha", 12],
 ["question answer", "notes", "explanation", "summary", "chapter name", "introduction", "one video", "one shot", "lecture", "in 1 hour", "in 30 minutes", 6]
 ]
