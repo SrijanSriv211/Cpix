@@ -48,17 +48,43 @@ def arrange_words(tokens):
     sentence = [numpy.random.choice(i).strip() for i in processed_tokens]
     return " ".join(sentence)
 
-def text_similarity(sent1, sent2):
-    # https://stackoverflow.com/a/65201576/18121288
-    tok1 = tokenize(sent1.lower())
-    tok2 = tokenize(sent2.lower())
+def text_similarity(sentence, dict_of_sents):
+    """
+    sentence: string,
+    lis_of_sents (list of sentences): list
 
-    clean_tok1 = stop_words(tok1)
-    clean_tok2 = stop_words(tok2)
+    Code refrence from:
+    https://stackoverflow.com/a/65201576/18121288
+    """
 
-    clean_sent1 = [lemmatize(word) for word in clean_tok1]
-    clean_sent2 = [lemmatize(word) for word in clean_tok2]
+    lis_of_sents = [i["title"] for i in dict_of_sents]
 
-    common = set(clean_sent1) & set(clean_sent2)
-    similarity = len(common) / max(len(clean_sent1), len(clean_sent2))
-    return similarity
+    tokens = tokenize(sentence.lower())
+    lis_of_toks = [tokenize(sent.lower()) for sent in lis_of_sents]
+
+    clean_toks = stop_words(tokens)
+    clean_lis_of_toks = [stop_words(tok) for tok in lis_of_toks]
+
+    clean_sent1 = " ".join([lemmatize(word) for word in clean_toks])
+    clean_sent2 = [" ".join([lemmatize(word) for word in toks]) for toks in clean_lis_of_toks]
+
+    sentences = [clean_sent1]
+    sentences.extend(clean_sent2[:20])
+
+    model = SentenceTransformer("distilbert-base-nli-mean-tokens")
+    sentence_embeddings = model.encode(sentences)
+
+    cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
+    b = torch.from_numpy(sentence_embeddings)
+
+    similarities = []
+    for idx, _ in enumerate(sentences):
+        if idx > 0:
+            similarities.append({
+                "title": lis_of_sents[idx-1],
+                "index": dict_of_sents[idx-1]["index"],
+                "score": cos(b[0], b[idx-1])
+            })
+
+    sorted_similarities = sorted(similarities, key=lambda x: x["score"], reverse=True)
+    return sorted_similarities

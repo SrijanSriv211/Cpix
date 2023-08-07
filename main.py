@@ -3,28 +3,35 @@ import json
 
 from pprint import pprint
 
-sentence1 = "class 10 english chapter 1 lecture"
-
+print("STARTING:")
 json_file = open("data\\index.json", "r", encoding="utf-8")
 content = json.load(json_file)
 
-results = []
-for i in content:
-    data = {
-        "title": "",
-        "url": "",
-        "score": 0
-    }
+title_metadata = []
+for idx, ele in enumerate(content):
+    title_metadata.append({
+        "title": ele["Title"].lower(),
+        "index": idx
+    })
 
-    score = text_similarity(sentence1, i["Title"])
-    if score < 0.6:
-        continue
+sentence = "Long Walk to Freedom Chapter Explanation"
+pprint(text_similarity(sentence, title_metadata))
 
-    data["title"] = i["Title"]
-    data["url"] = i["URL"]
-    data["score"] = score
-    results.append(data)
+#     data = {
+#         "title": "",
+#         "url": "",
+#         "score": 0
+#     }
+
+#     score = text_similarity(sentence1, i["Title"])
+#     if score < 0.6:
+#         continue
+
+#     data["title"] = i["Title"]
+#     data["url"] = i["URL"]
+#     data["score"] = score
+#     results.append(data)
 
 
-sorted_results = sorted(results, key=lambda x: x["score"], reverse=True)
-pprint(sorted_results[:20])
+# sorted_results = sorted(results, key=lambda x: x["score"], reverse=True)
+# pprint(sorted_results[:20])
