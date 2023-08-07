@@ -65,11 +65,14 @@ def text_similarity(sentence, dict_of_sents):
     clean_toks = stop_words(tokens)
     clean_lis_of_toks = [stop_words(tok) for tok in lis_of_toks]
 
-    clean_sent1 = " ".join([lemmatize(word) for word in clean_toks])
-    clean_sent2 = [" ".join([lemmatize(word) for word in toks]) for toks in clean_lis_of_toks]
+    clean_sent1 = [lemmatize(word) for word in clean_toks]
+    clean_sent2 = [[lemmatize(word) for word in toks] for toks in clean_lis_of_toks]
 
-    sentences = [clean_sent1]
-    sentences.extend(clean_sent2[:20])
+    matching_words_list = [" ".join(sent) for sent in clean_sent2 if len(set(clean_sent1) & set(sent)) > 0][:20]
+
+    sentences = []
+    sentences.append(clean_sent1)
+    sentences.extend(matching_words_list)
 
     model = SentenceTransformer("distilbert-base-nli-mean-tokens")
     sentence_embeddings = model.encode(sentences)
