@@ -68,14 +68,20 @@ def text_similarity(sentence, dict_of_sents):
     clean_sent1 = [lemmatize(word) for word in clean_toks]
     clean_sent2 = [[lemmatize(word) for word in toks] for toks in clean_lis_of_toks]
 
+    # Save only those websites which share keywords with the input sentence.
     num_of_sites_to_be_ranked = 10
-    preranked_sites = [
-        " ".join(sent) for sent in clean_sent2 if len(set(clean_sent1) & set(sent)) > 0 # Save only those websites which share keywords with the input sentence.
-    ][:num_of_sites_to_be_ranked]
+    pre_ranked_sites = [
+        [" ".join(sent), len(set(clean_sent1) & set(sent))]
+        for sent in clean_sent2
+        if len(set(clean_sent1) & set(sent)) > 0
+    ]
+
+    sorted_pre_ranked_sites = sorted(pre_ranked_sites, key=lambda x: x[1], reverse=True)
+    limited_sorted_pre_ranked_sites = sorted_pre_ranked_sites[:num_of_sites_to_be_ranked]
 
     sentences = []
-    sentences.append(clean_sent1)
-    sentences.extend(preranked_sites)
+    sentences.append(" ".join(clean_sent1))
+    sentences.extend(limited_sorted_pre_ranked_sites)
 
     model = SentenceTransformer("distilbert-base-nli-mean-tokens")
     sentence_embeddings = model.encode(sentences)

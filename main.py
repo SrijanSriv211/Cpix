@@ -13,7 +13,7 @@ for idx, ele in enumerate(content):
         "url": ele["URL"]
     })
 
-sentence = "Class 10 English Chapter 19 FlexiPrep"
+sentence = "Google's Quantum Computer Achieves Quantum Supremacy"
 
 ranked_sites = text_similarity(sentence, site_metadata)
 pprint(ranked_sites)
