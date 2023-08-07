@@ -18,4 +18,3 @@ sentence = "Google's Quantum Computer Achieves Quantum Supremacy"
 
 ranked_sites = text_similarity(sentence, site_metadata)
 pprint(ranked_sites)
-print(site_metadata[1691]["title"])

@@ -86,9 +86,6 @@ def text_similarity(sentence, dict_of_sents):
     cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
     b = torch.from_numpy(sentence_embeddings)
 
-    from pprint import pprint
-    pprint(sentences)
-
     duplicates = []
     similarities = []
     for idx, ele in enumerate(sorted_pre_ranked_sites[:num_of_sites_to_be_ranked]):
