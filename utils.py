@@ -62,14 +62,3 @@ def text_similarity(sent1, sent2):
     common = set(clean_sent1) & set(clean_sent2)
     similarity = len(common) / max(len(clean_sent1), len(clean_sent2))
     return similarity
-
-    # sentences = [" ".join(clean_sent1), " ".join(clean_sent2)]
-
-    # model = SentenceTransformer("distilbert-base-nli-mean-tokens")
-    # sentence_embeddings = model.encode(sentences)
-
-    # cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
-    # b = torch.from_numpy(sentence_embeddings)
-
-    # similarity = cos(b[0], b[1])
-    # return similarity
