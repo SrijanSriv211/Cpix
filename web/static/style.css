@@ -41,19 +41,16 @@ body
 
 .results-container
 {
-    position: absolute;
-    top: 10px;
-    left: 7px;
-    font-size: 20px;
-    /* background: linear-gradient(180deg, rgba(34,34,34,1) 0%, rgba(19,19,19,1) 40%, rgba(18,18,18,1) 100%); */
-    background-color: grey;
+    position: relative;
+    top: 20px;
+    left: 20px;
+    height: 847px;
+    width: 1884px;
     border-radius: 5px;
-    width: 90vh;
-    height: 90vh;
-    overflow-y: scroll;
+    background: linear-gradient(180deg, rgba(34,34,34,1) 0%, rgba(19,19,19,1) 40%, rgba(18,18,18,1) 100%);
 }
 
-/* #results
+#results
 {
     margin: 25px;
     list-style-type: none;
@@ -90,4 +87,67 @@ body
 #results li a:hover
 {
 	text-decoration: underline;
-} */
+}
+
+.search-container
+{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 20px;
+}
+
+#inputbox
+{
+    font-size: 22px;
+    color: var(--black);
+    background-color: white;
+    border: 1px solid var(--grey);
+    outline: none;
+    border-radius: 10px;
+    width: 900px;
+    height: 55px;
+    padding-left: 16px;
+    padding-right: 16px;
+    transition: 0.2s;
+}
+
+#inputbox:hover
+{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    transition: 0.2s;
+}
+
+#inputbox:focus
+{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    transition: 0.2s;
+}
+
+.inputbtn
+{
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 20px;
+    padding-top: 3px;
+    color: var(--grey);
+    background-color: white;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    aspect-ratio: 1;
+    transition: 0.2s;
+}
+
+.inputbtn:hover
+{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    transition: 0.2s;
+}
