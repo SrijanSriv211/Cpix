@@ -48,6 +48,7 @@ body
     width: 1884px;
     border-radius: 5px;
     background: linear-gradient(180deg, rgba(34,34,34,1) 0%, rgba(19,19,19,1) 40%, rgba(18,18,18,1) 100%);
+    overflow-y: visible;
 }
 
 #results
@@ -124,7 +125,6 @@ body
 
 #inputbox:focus
 {
-    width: 1200px;
     border: 1px solid white;
     transition: 0.2s;
 }
