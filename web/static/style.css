@@ -61,18 +61,19 @@ body
     height: 45px;
     border: none;
     border-radius: 5px;
-    margin: 35px 35px;
+    margin: 20px 35px;
     padding-top: 35px;
     padding-bottom: 20px;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: #181818;
+    cursor: pointer;
+    background: linear-gradient(180deg, rgba(23,23,23,1) 0%, rgba(24,24,24,1) 100%);
     transition: 0.2s;
 }
 
 #results li:hover
 {
-    background-color: #282828;
+    background: linear-gradient(180deg, rgba(39,39,39,1) 0%, rgba(40,40,40,1) 100%);
     transition: 0.2s;
 }
 
@@ -103,13 +104,13 @@ body
 #inputbox
 {
     font-size: 22px;
-    color: var(--black);
-    background-color: white;
-    border: 1px solid var(--grey);
+    color: white;
+    background-color: #121212;
+    border: none;
     outline: none;
     border-radius: 10px;
     width: 900px;
-    height: 55px;
+    height: 60px;
     padding-left: 16px;
     padding-right: 16px;
     transition: 0.2s;
@@ -117,25 +118,26 @@ body
 
 #inputbox:hover
 {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    border: 1px solid white;
     transition: 0.2s;
 }
 
 #inputbox:focus
 {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    width: 1200px;
+    border: 1px solid white;
     transition: 0.2s;
 }
 
 .inputbtn
 {
     position: absolute;
-    top: 18px;
+    top: 19px;
     right: 18px;
     font-size: 20px;
     padding-top: 3px;
     color: var(--grey);
-    background-color: white;
+    background-color: #121212;
     border: none;
     outline: none;
     border-radius: 10px;
@@ -148,6 +150,7 @@ body
 
 .inputbtn:hover
 {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    color: white;
+    background-color: #282828;
     transition: 0.2s;
 }
