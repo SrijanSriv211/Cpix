@@ -20,14 +20,6 @@ function Focus_on_inputbox()
 
 function SendMessage()
 {
-    // // JavaScript function to handle form submission
-    // document.getElementById("search-bar").onsubmit = function(event)
-    // {
-    //     event.preventDefault(); // Prevent default form submission
-    //     const query = document.getElementById("inputbox").value;
-    //     search(query);
-    // };
-
     // JavaScript function to handle form submission
     const query = document.getElementById("inputbox").value;
 
