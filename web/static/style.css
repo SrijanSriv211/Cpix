@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
 
-:root
-{
-    --black: #1f1f1f;
-    --grey: #404040;
-    --white: #F2F6FE;
-    --blue: #2A6BBF;
-}
-
 ::-webkit-scrollbar
 {
     width: 8px;
@@ -35,7 +27,7 @@
 
 body
 {
-    color: var(--black);
+    color: #1f1f1f;
     font-family: 'Open Sans', sans-serif;
     background-color: black;
 }
