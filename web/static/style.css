@@ -11,7 +11,7 @@
 ::-webkit-scrollbar
 {
     width: 8px;
-    background: black;
+    background: white;
 }
 
 ::-webkit-scrollbar-thumb
@@ -34,123 +34,26 @@
 
 body
 {
-    color: white;
+    color: var(--black);
     font-family: 'Open Sans', sans-serif;
     background-color: black;
 }
 
-.results-container
+/* .results-container
 {
-    position: relative;
-    top: 20px;
-    left: 20px;
-    height: 847px;
-    width: 1884px;
-    border-radius: 5px;
-    background: linear-gradient(180deg, rgba(34,34,34,1) 0%, rgba(19,19,19,1) 40%, rgba(18,18,18,1) 100%);
-    overflow-y: visible;
-}
-
-#results
-{
-    margin: 25px;
-    list-style-type: none;
-}
+    height: 500px;
+    width: 1000px;
+    background-color: black;
+} */
 
 #results li
 {
-    height: 45px;
-    border: none;
-    border-radius: 5px;
-    margin: 20px 35px;
-    padding-top: 35px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    cursor: pointer;
-    background: linear-gradient(180deg, rgba(23,23,23,1) 0%, rgba(24,24,24,1) 100%);
-    transition: 0.2s;
+    margin: 50px;
+    /* height: 500px; */
+    width: 1000px;
 }
 
 #results li:hover
 {
-    background: linear-gradient(180deg, rgba(39,39,39,1) 0%, rgba(40,40,40,1) 100%);
-    transition: 0.2s;
-}
-
-#results li a
-{
-    cursor: pointer;
-    font-weight: bold;
-    color: white;
-	text-decoration: none;
-}
-
-#results li a:hover
-{
-	text-decoration: underline;
-}
-
-.search-container
-{
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    align-items: center;
-    padding: 10px;
-    position: absolute;
-    bottom: 20px;
-}
-
-#inputbox
-{
-    font-size: 22px;
-    color: white;
-    background-color: #121212;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    width: 900px;
-    height: 60px;
-    padding-left: 16px;
-    padding-right: 16px;
-    transition: 0.2s;
-}
-
-#inputbox:hover
-{
-    border: 1px solid white;
-    transition: 0.2s;
-}
-
-#inputbox:focus
-{
-    border: 1px solid white;
-    transition: 0.2s;
-}
-
-.inputbtn
-{
-    position: absolute;
-    top: 19px;
-    right: 18px;
-    font-size: 20px;
-    padding-top: 3px;
-    color: var(--grey);
-    background-color: #121212;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    aspect-ratio: 1;
-    transition: 0.2s;
-}
-
-.inputbtn:hover
-{
-    color: white;
-    background-color: #282828;
-    transition: 0.2s;
+    background-color: #404040;
 }
