@@ -11,18 +11,19 @@
 ::-webkit-scrollbar
 {
     width: 8px;
-    background: white;
+    background: #222327;
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb
 {
-    background: var(--black);
-    border-radius: 10px;
+    background: #80868b;
+    border-radius: 5px;
 }
 
-::-webkit-scrollbar-thumb:hover
+::-webkit-scrollbar-thumb:active
 {
-    background: var(--grey);
+    background: #404040;
 }
 
 *
@@ -39,21 +40,141 @@ body
     background-color: black;
 }
 
-/* .results-container
+.title-bar
 {
-    height: 500px;
-    width: 1000px;
-    background-color: black;
-} */
+    display: flex;
+    height: 60px;
+    text-align: center;
+}
+
+nav ul
+{
+    display: flex;
+    font-size: 20px;
+    list-style-type: none;
+}
+
+nav ul li
+{
+    margin: 20px;
+    cursor: pointer;
+}
+
+nav ul li a
+{
+    color: #a5a5a5;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+nav ul li a:hover
+{
+    color: white;
+}
+
+.title
+{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 50px;
+    cursor: default;
+    color: white;
+}
+
+.results-container
+{
+    border-radius: 5px;
+    margin: 30px;
+    width: 1720px;
+    height: 600px;
+    padding: 70px;
+    font-size: 20px;
+    background-color: #222327;
+    overflow-y: auto;
+}
+
+#results
+{
+    list-style-type: none;
+}
 
 #results li
 {
-    margin: 50px;
-    /* height: 500px; */
-    width: 1000px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: #131314;
+    transition: 0.2s;
 }
 
 #results li:hover
 {
-    background-color: #404040;
+    background-color: #1b1b1b;
+}
+
+#results li a
+{
+    color: white;
+	text-decoration: none;
+    transition: 0.2s;
+}
+
+#results li a:hover
+{
+	text-decoration: underline;
+}
+
+.search-container
+{
+    display: flex;
+    justify-content: center;
+}
+
+#search-bar
+{
+    position: absolute;
+    display: flex;
+    padding: 10px;
+    bottom: 30px;
+}
+
+#inputbox
+{
+    font-size: 22px;
+    color: white;
+    background-color: #131314;
+    border: none;
+    border-radius: 10px;
+    width: 900px;
+    height: 55px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.inputbtn
+{
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 20px;
+    padding-top: 3px;
+    color: white;
+    background-color: #131314;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    aspect-ratio: 1;
+    transition: 0.2s;
+}
+
+.inputbtn:hover
+{
+    background-color: #222327;
 }
