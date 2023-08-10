@@ -25,12 +25,19 @@ def clean_sentence(text):
     clean_toks = stop_words(toks)
     return " ".join([lemmatize(word) for word in clean_toks])
 
-print("STARTING:")
 list_of_titles = database()
+def color_rank(text):
+    results = text_similarity(clean_sentence(text), list_of_titles)
+    indexes = [i["index"] for i in results]
+
+    json_file = open("data\\index.json", "r", encoding="utf-8")
+    content = json.load(json_file)
+
+    return [content[i] for i in indexes]
 
 if __name__ == "__main__":
-    text = "google"
-    results = text_similarity(clean_sentence(text), list_of_titles)
+    text = "how to reply to an insult"
+    results = color_rank(text)
 
     print("SEARCH QUERY:", text)
     pprint(results)

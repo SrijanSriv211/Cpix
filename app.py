@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
-from main import clean_sentence, list_of_titles
-from utils import text_similarity
+from main import color_rank
 from pprint import pprint
 import time
 
@@ -16,7 +15,7 @@ def search():
     print("SEARCH QUERY:", text)
 
     start_time = time.time()
-    results = text_similarity(clean_sentence(text), list_of_titles)
+    results = color_rank(text)
     end_time = time.time()
 
     pprint(results)
