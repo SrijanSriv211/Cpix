@@ -12,13 +12,13 @@ def index_get():
 @app.route("/", methods=["POST"])
 def search():
     text = request.form["query"]
-    print("SEARCH QUERY:", text)
 
     start_time = time.time()
     results = color_rank(text)
     end_time = time.time()
 
     pprint(results)
+    print("SEARCH QUERY:", text)
     print("About", (end_time - start_time), "seconds")
 
     return render_template("index.html", results=results)
