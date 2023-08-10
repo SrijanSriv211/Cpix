@@ -1,6 +1,6 @@
 from utils import text_similarity, lemmatize, stop_words, tokenize
 from pprint import pprint
-import json
+import json, time
 
 def database():
     json_file = open("data\\index.json", "r", encoding="utf-8")
@@ -37,7 +37,11 @@ def color_rank(text):
 
 if __name__ == "__main__":
     text = "googls"
+
+    start_time = time.time()
     results = color_rank(text)
+    end_time = time.time()
 
     print("SEARCH QUERY:", text)
     pprint(results)
+    print("About", (end_time - start_time), "seconds")
