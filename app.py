@@ -3,15 +3,11 @@ from utils import text_similarity
 from pprint import pprint
 import json
 
-site_metadata = []
+titles = []
 json_file = open("data\\index.json", "r", encoding="utf-8")
-content = json.load(json_file)
-for idx, ele in enumerate(content):
-    site_metadata.append({
-        "title": ele["Title"],
-        "url": ele["URL"],
-        "index": idx
-    })
+
+for idx, ele in enumerate(json.load(json_file)):
+    titles.append(ele["Title"])
 
 app = Flask(__name__, template_folder="web\\templates", static_folder="web\\static")
 
@@ -22,7 +18,10 @@ def index_get():
 @app.route("/", methods=["POST"])
 def search():
     text = request.form["query"]
-    results = text_similarity(text, site_metadata)
+
+    # results = text_similarity(text, site_metadata)
+    results = text_similarity(text, titles)
+
     print("SEARCH QUERY:", text)
     pprint(results)
     return render_template("index.html", results=results)
