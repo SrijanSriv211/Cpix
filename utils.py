@@ -2,7 +2,7 @@ from sentence_transformers import SentenceTransformer
 from nltk.stem.porter import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
-import torch.nn, numpy, nltk
+import torch.nn, numpy, nltk, re
 
 # nltk.download('punkt')
 # nltk.download('wordnet')
@@ -11,7 +11,7 @@ import torch.nn, numpy, nltk
 # nltk.download('stopwords')
 
 stemmer = PorterStemmer()
-lemmatizer = WordNetLemmatizer()
+Lemmatizer = WordNetLemmatizer()
 model = SentenceTransformer("distilbert-base-nli-mean-tokens")
 
 def tokenize(sentence):
@@ -21,12 +21,38 @@ def stem(word):
     return stemmer.stem(word.lower().strip())
 
 def lemmatize(word):
-    return lemmatizer.lemmatize(word.lower().strip())
+    return Lemmatizer.lemmatize(word.lower().strip())
 
 def stop_words(tokens):
-    ignore_words = '''!()-[]{\};:'"\,<>./?@#$%^&*_~+'''
+    ignore_words = '''|!()-[]{};:'"\,<>./?@#$%^&*_~+'''
     filler_words = set(stopwords.words("english"))
-    all_words = [stem(words) for words in tokens if words not in ignore_words]
+    emoj = re.compile("["
+        u"\U0001F600-\U0001F64F"  # emoticons
+        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+        u"\U0001F680-\U0001F6FF"  # transport & map symbols
+        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+        u"\U00002500-\U00002BEF"  # chinese char
+        u"\U00002702-\U000027B0"
+        u"\U00002702-\U000027B0"
+        u"\U000024C2-\U0001F251"
+        u"\U0001f926-\U0001f937"
+        u"\U00010000-\U0010ffff"
+        u"\u2640-\u2642" 
+        u"\u2600-\u2B55"
+        u"\u200d"
+        u"\u23cf"
+        u"\u23e9"
+        u"\u231a"
+        u"\ufe0f"  # dingbats
+        u"\u3030"
+        "]+", re.UNICODE)
+
+    # https://stackoverflow.com/a/47301893/18121288
+    removetable = str.maketrans("", "", ignore_words)
+    all_toks = [tok.translate(removetable) for tok in tokens]
+    remove_emoji = [re.sub(emoj, '', i) for i in all_toks]
+    clean_toks = list(filter(None, remove_emoji))
+    all_words = [stem(word) for word in clean_toks]
     return [word for word in all_words if word not in filler_words]
 
 # Arrange words in such a way to form a logical sentence.
@@ -50,83 +76,44 @@ def arrange_words(tokens):
     return " ".join(sentence)
 
 # Code refrence from: https://stackoverflow.com/a/65201576/18121288
-def text_similarity(sent, sentences):
+def text_similarity(sentence, sentences):
     """Calculates the similarity between the given sentence and a list of titles.
 
     Args:
         sentence (str): The sentence to be compared.
-        sentences (list): A list of sentences to be compared with.
+        sentences [list of tuples -> (index, sentence)]: A list of (index, sentences) to be compared with.
 
     Returns:
         list: A list of dictionaries, each containing the sentences index, and similarity score.
     """
 
-    toks = tokenize(sent.lower())
-    tokenize_sentences = [tokenize(sent.lower()) for sent in sentences]
+    matching_sentences = sorted(
+        [
+            (idx, sent, len(set(sentence.split()) & set(sent.split())))
+            for idx, sent in sentences
+            if len(set(sentence.split()) & set(sent.split())) > 0
+        ],
+        key=lambda x: x[2],
+        reverse=True
+    )[:10]
 
-    clean_toks = stop_words(toks)
-    clean_tokenize_sentences = [stop_words(tok) for tok in tokenize_sentences]
+    sentences = []
+    sentences.append(sentence)
+    sentences.extend([i[1] for i in matching_sentences])
 
-    clean_sentence = " ".join([lemmatize(word) for word in clean_toks])
-    clean_sentences = [
-        (idx, " ".join([lemmatize(word) for word in toks]))
-        for idx, toks in enumerate(clean_tokenize_sentences)
-    ]
+    sentence_embeddings = model.encode(sentences)
 
-    unique_strings = set()
-    unique_clean_sentences = list(filter(lambda x: x[1] not in unique_strings and not unique_strings.add(x[1]), clean_sentences))
+    cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
+    b = torch.from_numpy(sentence_embeddings)
 
+    similar_sentences = []
+    for i, item in enumerate(matching_sentences):
+        idx, _, _ = item
+        score = cos(b[0], b[i+1]).item()
+        if (score >= 0.5):
+            similar_sentences.append({
+                "index": idx,
+                "score": score,
+            })
 
-    # lis_of_sents = [i["title"] for i in dict_of_sents]
-
-    # tokens = tokenize(sentence.lower())
-    # lis_of_toks = [tokenize(sent.lower()) for sent in lis_of_sents]
-
-    # clean_toks = stop_words(tokens)
-    # clean_lis_of_toks = [stop_words(tok) for tok in lis_of_toks]
-
-    # clean_sent1 = [lemmatize(word) for word in clean_toks]
-    # clean_sent2 = [[lemmatize(word) for word in toks] for toks in clean_lis_of_toks]
-
-    # # Save only those websites which share keywords with the input sentence.
-    # num_of_sites_to_be_ranked = 10
-    # pre_ranked_sites = [
-    #     {
-    #         "match_name": " ".join(sent),
-    #         "match_index": idx,
-    #         "match_url": dict_of_sents[idx]["url"],
-    #         "match_score": len(set(clean_sent1) & set(sent))
-    #     }
-    #     for idx, sent in enumerate(clean_sent2)
-    #     if len(set(clean_sent1) & set(sent)) > 0
-    # ]
-
-    # sorted_pre_ranked_sites = sorted(pre_ranked_sites, key=lambda x: x["match_score"], reverse=True)
-    # limited_sorted_pre_ranked_sites = [i["match_name"] for i in sorted_pre_ranked_sites][:num_of_sites_to_be_ranked]
-
-    # sentences = []
-    # sentences.append(" ".join(clean_sent1))
-    # sentences.extend(limited_sorted_pre_ranked_sites)
-
-    # sentence_embeddings = model.encode(sentences)
-
-    # cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
-    # b = torch.from_numpy(sentence_embeddings)
-
-    # duplicates = []
-    # similarities = []
-    # for idx, ele in enumerate(sorted_pre_ranked_sites[:num_of_sites_to_be_ranked]):
-    #     URL = ele["match_url"]
-    #     if URL in duplicates:
-    #         continue
-
-    #     similarities.append({
-    #         "title": dict_of_sents[ele["match_index"]]["title"],
-    #         "url": dict_of_sents[ele["match_index"]]["url"],
-    #         "score": cos(b[0], b[idx+1]).item(),
-    #     })
-
-    #     duplicates.append(URL)
-
-    # sorted_similarities = sorted(similarities, key=lambda x: x["score"], reverse=True)
-    # return sorted_similarities
+    return sorted(similar_sentences, key=lambda x: x["score"], reverse=True)
