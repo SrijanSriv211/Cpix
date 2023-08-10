@@ -36,7 +36,7 @@ def color_rank(text):
     return [content[i] for i in indexes]
 
 if __name__ == "__main__":
-    text = "how to reply to an insult"
+    text = "googls"
     results = color_rank(text)
 
     print("SEARCH QUERY:", text)
