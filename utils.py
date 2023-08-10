@@ -11,7 +11,8 @@ import torch.nn, numpy, nltk
 # nltk.download('stopwords')
 
 stemmer = PorterStemmer()
-Lemmatizer = WordNetLemmatizer()
+lemmatizer = WordNetLemmatizer()
+model = SentenceTransformer("distilbert-base-nli-mean-tokens")
 
 def tokenize(sentence):
     return nltk.word_tokenize(sentence.strip())
@@ -20,7 +21,7 @@ def stem(word):
     return stemmer.stem(word.lower().strip())
 
 def lemmatize(word):
-    return Lemmatizer.lemmatize(word.lower().strip())
+    return lemmatizer.lemmatize(word.lower().strip())
 
 def stop_words(tokens):
     ignore_words = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
@@ -48,6 +49,7 @@ def arrange_words(tokens):
     sentence = [numpy.random.choice(i).strip() for i in processed_tokens]
     return " ".join(sentence)
 
+# Code refrence from: https://stackoverflow.com/a/65201576/18121288
 def text_similarity(sentence, dict_of_sents):
     lis_of_sents = [i["title"] for i in dict_of_sents]
 
@@ -80,8 +82,6 @@ def text_similarity(sentence, dict_of_sents):
     sentences.append(" ".join(clean_sent1))
     sentences.extend(limited_sorted_pre_ranked_sites)
 
-    # Code refrence from: https://stackoverflow.com/a/65201576/18121288
-    model = SentenceTransformer("distilbert-base-nli-mean-tokens")
     sentence_embeddings = model.encode(sentences)
 
     cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
