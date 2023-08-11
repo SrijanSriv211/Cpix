@@ -11,9 +11,37 @@ def database():
     ]
 
     unique_urls = set()
-    new_urls_list = list(filter(lambda x: x[1] not in unique_urls and not unique_urls.add(x[1]), urls))
+    no_duplicate_urls_list = list(filter(lambda x: x[1] not in unique_urls and not unique_urls.add(x[1]), urls))
 
-    return [(i[0], data[i[0]]["Title"]) for i in new_urls_list]
+    titles = [(i[0], data[i[0]]["Title"]) for i in no_duplicate_urls_list]
+
+    tokenize_titles = [(idx, tokenize(sent.lower())) for idx, sent in titles]
+    clean_titles = [(idx, stop_words(tok)) for idx, tok in tokenize_titles]
+
+    lemmatize_titles = [
+        (idx, " ".join([lemmatize(word) for word in toks]))
+        for idx, toks in clean_titles
+    ]
+
+    return lemmatize_titles
+
+
+
+    # titles = [
+    #     i["Title"]
+    #     for i in data
+    # ]
+
+    # tokenize_titles = [tokenize(sent.lower()) for sent in titles]
+    # clean_titles = [stop_words(tok) for tok in tokenize_titles]
+
+    # lemmatize_titles = [
+    #     (idx, " ".join([lemmatize(word) for word in toks]))
+    #     for idx, toks in enumerate(clean_titles)
+    # ]
+
+    # unique_strings = set()
+    # return list(filter(lambda x: x[1] not in unique_strings and not unique_strings.add(x[1]), lemmatize_titles))
 
 def clean_sentence(text):
     toks = tokenize(text.lower())
@@ -21,6 +49,7 @@ def clean_sentence(text):
     return " ".join([lemmatize(word) for word in clean_toks])
 
 list_of_titles = database()
+print(list_of_titles[:10])
 def color_rank(text):
     results = text_similarity(clean_sentence(text), list_of_titles)
     indexes = [i["index"] for i in results]
