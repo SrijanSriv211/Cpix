@@ -31,7 +31,6 @@ def clean_sentence(text):
     return " ".join([lemmatize(word) for word in clean_toks])
 
 list_of_titles = database()
-print(list_of_titles[:10])
 def color_rank(text):
     results = text_similarity(clean_sentence(text), list_of_titles)
     indexes = [i["index"] for i in results]
