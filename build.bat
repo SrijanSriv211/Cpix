@@ -11,7 +11,7 @@ if not exist bin\ (
 )
 
 pip install pyinstaller
-pyinstaller.exe --icon="web\static\img\icon.png" --add-data "web\templates;templates" --add-data "web\static;static" --add-data "web\static\img;img" --add-data "data;data" --distpath bin\app.exe --onedir app.py
+pyinstaller.exe --icon="web\static\img\icon.png" --add-data "web\templates;templates" --add-data "web\static;static" --add-data "web\static\img;img" --add-data "data;data" --distpath bin\app.exe --hidden-import=tqdm --hidden-import=Flask --hidden-import=transformers --hidden-import=numpy --onedir app.py
 
 rmdir dist /S /Q
 rmdir build /S /Q

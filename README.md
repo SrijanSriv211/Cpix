@@ -10,7 +10,7 @@ For a visual introduction, check out my YouTube video: https://youtu.be/wIa6YTm-
 ## :toolbox: Getting Started
 Visual Studio Code is recommended.
 
-Start by cloning the repository with `git clone https://github.com/Light-Lens/WINTER.git`
+Start by cloning the repository with `git clone https://github.com/Light-Lens/Cpix.git`
 
 ## :gear: Instructions
 ### :bangbang: Requirments
