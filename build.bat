@@ -12,8 +12,9 @@ if not exist bin\ (
 
 pyinstaller.exe --icon="web\static\img\icon.png" --add-data "web\templates;templates" --add-data "web\static;static" --add-data "web\static\img;img" --add-data "data;data" --distpath bin\app.exe --onefile app.py
 
-copy data\* bin\data\*
-copy web\* bin\web\*
+
+robocopy data bin\data /e
+robocopy web bin\web /e
 
 rmdir dist /S /Q
 rmdir build /S /Q
