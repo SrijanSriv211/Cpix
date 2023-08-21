@@ -7,14 +7,11 @@ if "%1" == "clean" (
 )
 
 if not exist bin\ (
-    mkdir bin\data bin\web
+    mkdir bin
 )
 
-pyinstaller.exe --icon="web\static\img\icon.png" --add-data "web\templates;templates" --add-data "web\static;static" --add-data "web\static\img;img" --add-data "data;data" --distpath bin\app.exe --onefile app.py
-
-
-robocopy data bin\data /e
-robocopy web bin\web /e
+pip install pyinstaller
+pyinstaller.exe --icon="web\static\img\icon.png" --add-data "web\templates;templates" --add-data "web\static;static" --add-data "web\static\img;img" --add-data "data;data" --distpath bin\app.exe --onedir app.py
 
 rmdir dist /S /Q
 rmdir build /S /Q
