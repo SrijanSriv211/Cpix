@@ -12,8 +12,11 @@ if not exist bin/ (
 
 pyinstaller.exe --icon="web/static/img/icon.ico" --add-data "web/templates;templates" --add-data "web/static;static" --add-data "data;data" --distpath bin/app.exe --onefile app.py
 
-rem rmdir /s /q dist
-rmdir /s /q build
-rmdir /s /q __pycache__
+copy data\* bin\data\*
+copy web\* bin\web\*
 
-del main.spec
+rem rmdir /s /q dist
+rem rmdir /s /q build
+rem rmdir /s /q __pycache__
+
+rem del app.spec
