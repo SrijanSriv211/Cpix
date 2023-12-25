@@ -35,6 +35,27 @@ function SendMessage()
     xhr.send(data);
 }
 
+function DeleteHistory()
+{
+    const clearHistoryForm = document.getElementById("clear-history-form");
+
+    clearHistoryForm.addEventListener("submit", function (e)
+    {
+        e.preventDefault();
+
+        // Create an AJAX request
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/history");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Send the data to the Flask route
+        xhr.send();
+
+        // Reload the page to reflect the changes
+        location.reload();
+    });
+}
+
 function ChangeTitle()
 {
     const results = document.getElementById("results");

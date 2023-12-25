@@ -15,7 +15,6 @@
         <nav>
             <ul>
                 <li><a title="Star on Github." href="https://github.com/Light-Lens/Cpix" target="_blank">Github</a></li>
-                <li><a title="Cpix History" href="/history">History</a></li>
             </ul>
         </nav>
         <a title="Cpix Home" href="/"><h3 id="results-title">Cpix</h3></a>
@@ -29,7 +28,11 @@
             </ul>
         </div>
         <h1 id="no-search-history-found">You have no recent searches.</h1>
+        <form method="POST" id="clear-history-form">
+            <button class="clear-history"><i class="material-symbols-outlined">delete</i></button>
+        </form>
     </div>
     <script> CheckForHistory() </script>
+    <script> DeleteHistory() </script>
 </body>
 </html>
