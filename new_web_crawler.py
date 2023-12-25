@@ -1,6 +1,6 @@
 from colorama import Fore, Style, init
 from bs4 import BeautifulSoup
-import requests, json
+import unicodedata, requests, json
 
 # Initialize colorama
 init(autoreset = True)
@@ -16,7 +16,7 @@ def crawl(url):
             soup = BeautifulSoup(response.text, "html.parser")
 
             # Extract the title of the page
-            title = soup.title.text.strip() if soup.title else "No Title Found"
+            title = unicodedata.normalize('NFKD', soup.title.text.strip()) if soup.title else "No Title Found"
 
             # Extract all the links (URLs) on the page
             links = [a["href"] for a in soup.find_all("a", href=True) if a["href"].startswith("http")]
@@ -53,14 +53,11 @@ for link in following_links:
             },
         )
 
-        # print(f"{Fore.WHITE}{Style.BRIGHT}Title:", title)
-        # print(f"{Fore.WHITE}{Style.BRIGHT}URL:", link)
-        # print()
-
         following_links.extend(links)
 
     except KeyboardInterrupt:
         break
 
-with open("index.json", "w") as f:
-    json.dump(data, f)
+print(f"{Fore.YELLOW}{Style.BRIGHT}Saving the crawled data..")
+with open("index.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=4)
