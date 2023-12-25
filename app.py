@@ -9,7 +9,7 @@ app = Flask(__name__, template_folder="web\\templates", static_folder="web\\stat
 def index_get():
     return render_template("index.html")
 
-@app.route("/", methods=["POST"])
+@app.route("/<query>", methods=["POST"])
 def search():
     # Get the search query
     text = request.form["query"]
@@ -39,6 +39,8 @@ def load_history():
     # Load user history
     with open("web\\history\\user.txt", "r", encoding="utf-8") as f:
         history = [i.strip() for i in f.readlines()]
+
+    print(history)
 
     return render_template("history.html", results=history)
 
