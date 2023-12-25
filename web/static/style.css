@@ -108,7 +108,8 @@ nav ul li a:hover
 
 #results li a:hover
 {
-	text-decoration: underline;
+    text-decoration: underline;
+    transition: 0.2s;
 }
 
 .search-container
@@ -128,14 +129,28 @@ nav ul li a:hover
 #inputbox
 {
     font-size: 22px;
-    color: white;
-    background-color: #131314;
+    color: black;
+    background-color: white;
+    outline: none;
     border: none;
     border-radius: 10px;
     width: 900px;
     height: 55px;
     padding-left: 16px;
     padding-right: 16px;
+    transition: 0.2s;
+}
+
+#inputbox:hover
+{
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 1);
+    transition: 0.2s;
+}
+
+#inputbox:focus
+{
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 1);
+    transition: 0.2s;
 }
 
 .inputbtn
@@ -146,7 +161,7 @@ nav ul li a:hover
     font-size: 20px;
     padding-top: 3px;
     color: white;
-    background-color: #131314;
+    background-color: #222327;
     border: none;
     outline: none;
     border-radius: 10px;
@@ -159,5 +174,7 @@ nav ul li a:hover
 
 .inputbtn:hover
 {
-    background-color: #222327;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 1);
+    background-color: #038247;
+    transition: 0.2s;
 }
