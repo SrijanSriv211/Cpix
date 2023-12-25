@@ -64,6 +64,7 @@ for link in following_links:
             elif current_patience == 0:
                 current_patience = patience
                 following_links = following_links[patience:]
+                print()
 
             count += 1
             print(f"Scraped [{count}/{len(following_links)}]", end="\r")
