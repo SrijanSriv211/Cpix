@@ -34,3 +34,15 @@ function SendMessage()
     });
     xhr.send(data);
 }
+
+function HideTitle()
+{
+    const results = document.getElementById("results");
+    const title = document.getElementById("title");
+
+    if (results.querySelectorAll("li").length > 0)
+        title.style.display = "none";
+
+    else
+        title.style.display = "block";
+}
