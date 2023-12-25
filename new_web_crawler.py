@@ -62,5 +62,5 @@ for link in following_links:
     except KeyboardInterrupt:
         break
 
-with open("index.json", "w", encoding="utf-8") as f:
+with open("index.json", "w") as f:
     json.dump(data, f)
