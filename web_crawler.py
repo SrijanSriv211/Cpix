@@ -31,11 +31,17 @@ def crawl(url):
         print(f"An error occurred: {e}")
         return ("", [])
 
+def save(data):
+    print(f"{Fore.YELLOW}{Style.BRIGHT}Saving the crawled data..")
+    with open("index.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
 with open("data\\index.json", "r", encoding="utf-8") as f:
     old_index_data = json.load(f)
 
 following_links = [i["URL"] for i in old_index_data]
 following_links.append("https://en.wikipedia.org")
+current_patience = patience = 10000
 count = 0
 data = []
 
@@ -44,9 +50,6 @@ for link in following_links:
     try:
         title, links = crawl(link)
         if title != "" or links != []:
-            count += 1
-            print(f"Scraped [{count}/{len(following_links)}]", end="\r")
-
             data.append(
                 {
                     "Title": title,
@@ -54,11 +57,16 @@ for link in following_links:
                 },
             )
 
-            following_links.extend(links)
+            current_patience -= 1
+            if current_patience > 0:
+                following_links.extend(links)
+
+            elif current_patience == 0:
+                current_patience = patience
+                following_links = following_links[patience:]
+
+            count += 1
+            print(f"Scraped [{count}/{len(following_links)}]", end="\r")
 
     except KeyboardInterrupt:
         break
-
-print(f"{Fore.YELLOW}{Style.BRIGHT}Saving the crawled data..")
-with open("index.json", "w", encoding="utf-8") as f:
-    json.dump(data, f, ensure_ascii=False, indent=4)
