@@ -25,35 +25,32 @@ def crawl(url):
 
         else:
             print(f"Failed to retrieve {url}. Status code: {response.status_code}")
+            return ("", [])
 
     except Exception as e:
         print(f"An error occurred: {e}")
+        return ("", [])
 
+with open("data\\index.json", "r", encoding="utf-8") as f:
+    old_index_data = json.load(f)
+
+following_links = [i["URL"] for i in old_index_data]
+following_links.append("https://en.wikipedia.org")
 data = []
-
-url_to_crawl = "https://en.wikipedia.org/"
-title, links = crawl(url_to_crawl)
-following_links = links
-
-data.append(
-	{
-		"Title": title,
-		"URL": url_to_crawl
-	},
-)
 
 print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
 for link in following_links:
     try:
         title, links = crawl(link)
-        data.append(
-            {
-                "Title": title,
-                "URL": link
-            },
-        )
+        if title != "" or links != []:
+            data.append(
+                {
+                    "Title": title,
+                    "URL": link
+                },
+            )
 
-        following_links.extend(links)
+            following_links.extend(links)
 
     except KeyboardInterrupt:
         break
