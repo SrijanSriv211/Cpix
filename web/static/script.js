@@ -33,16 +33,29 @@ function SendMessage()
         "query": query
     });
     xhr.send(data);
+    localStorage.setItem("UserHistory")
 }
 
-function HideTitle()
+function ChangeTitle()
 {
     const results = document.getElementById("results");
     const title = document.getElementById("title");
 
     if (results.querySelectorAll("li").length > 0)
-        title.style.display = "none";
+        title.id = "results-title";
 
     else
-        title.style.display = "block";
+        title.id = "title";
+}
+
+function GetHistory()
+{
+    const results = document.getElementById("results");
+    const no_search_history_found = document.getElementById("no-search-history-found");
+
+    if (results.querySelectorAll("li").length > 0)
+        no_search_history_found.style.display = "none";
+    
+    else
+        no_search_history_found.style.display = "block";
 }

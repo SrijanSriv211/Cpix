@@ -23,5 +23,9 @@ def search():
 
     return render_template("index.html", results=results)
 
+@app.route("/history")
+def other_page():
+    return render_template('history.html')
+
 if __name__ == "__main__":
     app.run(port=8000)

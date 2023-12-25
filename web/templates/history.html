@@ -18,23 +18,15 @@
                 <li><a title="Cpix History" href="/history">History</a></li>
             </ul>
         </nav>
-        <a title="Cpix Home" href=""><h3 id="title">Cpix</h3></a>
+        <a title="Cpix Home" href=""><h3 id="results-title">Cpix</h3></a>
     </div>
-    <div class="results-container">
-        <ul id="results">
-            {% for result in results %}
-                <li><a href="{{ result.URL }}">{{ result.Title }}</a></li>
-            {% endfor %}
-        </ul>
+    <div>
+        <div class="results-container">
+            <ul id="results">
+            </ul>
+        </div>
+        <h1 id="no-search-history-found">You have no recent searches.</h1>
     </div>
-    <div class="search-container">
-        <form method="POST" id="search-bar">
-            <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" autofocus required>
-            <button class="inputbtn"><i class="material-symbols-outlined">search</i></button>
-        </form>
-    </div>
-    <script> Focus_on_inputbox(); </script>
-    <script> SendMessage(); </script>
-    <script> ChangeTitle(); </script>
+    <script> GetHistory() </script>
 </body>
 </html>
