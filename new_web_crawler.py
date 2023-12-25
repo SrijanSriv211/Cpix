@@ -1,6 +1,6 @@
 from colorama import Fore, Style, init
 from bs4 import BeautifulSoup
-import requests
+import requests, json
 
 # Initialize colorama
 init(autoreset = True)
@@ -63,4 +63,4 @@ for link in following_links:
         break
 
 with open("index.json", "w", encoding="utf-8") as f:
-    f.write(f"{data}")
+    json.dump(data, f)
