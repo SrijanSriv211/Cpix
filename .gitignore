@@ -1,4 +1,4 @@
 .venv/
 __pycache__/
 
-web/history/user.txt
+web/history/user_history.txt

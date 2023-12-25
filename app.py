@@ -15,7 +15,7 @@ def search():
     text = request.form["query"]
 
     # Save the search query in the user history
-    with open("web\\history\\user.txt", "a", encoding="utf-8") as f:
+    with open("web\\history\\user_history.txt", "a", encoding="utf-8") as f:
         f.write(text + "\n")
 
     # Use my Color search algo to search.
@@ -31,13 +31,9 @@ def search():
     return render_template("index.html", results=results)
 
 @app.route("/history")
-def history_page():
-    return render_template("history.html")
-
-@app.route("/history", methods=["POST"])
 def load_history():
     # Load user history
-    with open("web\\history\\user.txt", "r", encoding="utf-8") as f:
+    with open("web\\history\\user_history.txt", "r", encoding="utf-8") as f:
         history = [i.strip() for i in f.readlines()]
 
     print(history)
