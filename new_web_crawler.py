@@ -1,5 +1,9 @@
+from colorama import Fore, Style, init
 from bs4 import BeautifulSoup
 import requests
+
+# Initialize colorama
+init(autoreset = True)
 
 def crawl(url):
     try:
@@ -29,10 +33,34 @@ data = []
 
 url_to_crawl = "https://en.wikipedia.org/wiki/Google"
 title, links = crawl(url_to_crawl)
+following_links = links
 
-print(f"Title: {title}")
-print(f"URL: {title}")
+data.append(
+	{
+		"Title": title,
+		"URL": url_to_crawl
+	},
+)
 
-print("Following Links:")
-for link in links:
-    print(link)
+print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
+for link in following_links:
+    try:
+        title, links = crawl(link)
+        data.append(
+            {
+                "Title": title,
+                "URL": link
+            },
+        )
+
+        # print(f"{Fore.WHITE}{Style.BRIGHT}Title:", title)
+        # print(f"{Fore.WHITE}{Style.BRIGHT}URL:", link)
+        # print()
+
+        following_links.extend(links)
+
+    except KeyboardInterrupt:
+        break
+
+with open("index.json", "w", encoding="utf-8") as f:
+    f.write(f"{data}")
