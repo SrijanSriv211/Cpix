@@ -41,7 +41,7 @@ with open("data\\index.json", "r", encoding="utf-8") as f:
 
 following_links = [i["URL"] for i in old_index_data]
 following_links.append("https://en.wikipedia.org")
-current_patience = patience = 10000
+current_patience = patience = 100
 count = 0
 data = []
 
@@ -70,3 +70,5 @@ for link in following_links:
 
     except KeyboardInterrupt:
         break
+
+save(data)
