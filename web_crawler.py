@@ -36,6 +36,7 @@ with open("data\\index.json", "r", encoding="utf-8") as f:
 
 following_links = [i["URL"] for i in old_index_data]
 following_links.append("https://en.wikipedia.org")
+count = 0
 data = []
 
 print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
@@ -43,6 +44,9 @@ for link in following_links:
     try:
         title, links = crawl(link)
         if title != "" or links != []:
+            count += 1
+            print(f"Scraped [{count}/{len(following_links)}]", end="\r")
+
             data.append(
                 {
                     "Title": title,
