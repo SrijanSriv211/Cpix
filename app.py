@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request
+from colorama import Fore, Style, init
 from main import color_rank
 from pprint import pprint
 import time, os
+
+# Initialize colorama
+init(autoreset = True)
 
 app = Flask(__name__, template_folder="web\\templates", static_folder="web\\static")
 user_history_path = "web\\history\\user_history.txt"
@@ -19,6 +23,7 @@ def search():
     text = request.form["query"]
 
     # Save the search query in the user history
+    print(f"{Fore.YELLOW}{Style.BRIGHT}Saving History")
     with open(user_history_path, "a", encoding="utf-8") as f:
         f.write(text + "\n")
 
@@ -27,14 +32,14 @@ def search():
     results = color_rank(text)
     end_time = time.time()
 
-    pprint(results)
-    print("SEARCH QUERY:", text)
-    print("About", (end_time - start_time), "seconds")
+    print(f"{Fore.YELLOW}{Style.BRIGHT}SEARCH QUERY:", text)
+    pprint(f"{Fore.WHITE}{Style.BRIGHT}RESULTS:\n{results}")
+    print(f"{Fore.WHITE}{Style.BRIGHT}About {(end_time - start_time)} seconds")
 
     # Render the results.
     return render_template("index.html", results=results)
 
-@app.route("/history", methods=["POST"])
+@app.route("/history")
 def load_history():
     # Load user history
     with open(user_history_path, "r", encoding="utf-8") as f:
@@ -49,6 +54,8 @@ def delete_history():
     # Delete user history
     with open(user_history_path, "w", encoding="utf-8") as f:
         f.write("")
+
+    print("History deleted")
 
     return render_template("history.html")
 
