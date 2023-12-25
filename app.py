@@ -32,12 +32,14 @@ def search():
     results = color_rank(text)
     end_time = time.time()
 
+    time_taken = f"About {(end_time - start_time):.2f} seconds"
+
     print(f"{Fore.YELLOW}{Style.BRIGHT}SEARCH QUERY:", text)
     pprint(f"{Fore.WHITE}{Style.BRIGHT}RESULTS:\n{results}")
-    print(f"{Fore.WHITE}{Style.BRIGHT}About {(end_time - start_time)} seconds")
+    print(f"{Fore.WHITE}{Style.BRIGHT}{time_taken}")
 
     # Render the results.
-    return render_template("index.html", results=results)
+    return render_template("index.html", results=results, time_taken=time_taken)
 
 @app.route("/history")
 def load_history():

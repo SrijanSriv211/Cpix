@@ -57,14 +57,13 @@ nav ul li a:hover
     color: #038247;
 }
 
-.results-container
+#time-taken
 {
-    border-radius: 5px;
-    height: 720px;
-    padding: 50px;
-    font-size: 20px;
-    background-color: #faf3ea;
-    overflow-y: auto;
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    transform: translate(-3%, -3%);
+    color: #1f1f1f;
 }
 
 #results-title
@@ -85,6 +84,16 @@ nav ul li a:hover
     transform: translate(-50%, -35%);
     font-size: 100px;
     color: black;
+}
+
+.results-container
+{
+    border-radius: 5px;
+    height: 720px;
+    padding: 50px;
+    font-size: 20px;
+    background-color: #faf3ea;
+    overflow-y: auto;
 }
 
 #results
