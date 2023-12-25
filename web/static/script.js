@@ -33,7 +33,6 @@ function SendMessage()
         "query": query
     });
     xhr.send(data);
-    localStorage.setItem("UserHistory")
 }
 
 function ChangeTitle()
@@ -48,7 +47,7 @@ function ChangeTitle()
         title.id = "title";
 }
 
-function GetHistory()
+function CheckForHistory()
 {
     const results = document.getElementById("results");
     const no_search_history_found = document.getElementById("no-search-history-found");

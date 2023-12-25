@@ -18,15 +18,18 @@
                 <li><a title="Cpix History" href="/history">History</a></li>
             </ul>
         </nav>
-        <a title="Cpix Home" href=""><h3 id="results-title">Cpix</h3></a>
+        <a title="Cpix Home" href="/"><h3 id="results-title">Cpix</h3></a>
     </div>
     <div>
         <div class="results-container">
             <ul id="results">
+                {% for result in results %}
+                    <li>{{ result }}</li>
+                {% endfor %}
             </ul>
         </div>
         <h1 id="no-search-history-found">You have no recent searches.</h1>
     </div>
-    <script> GetHistory() </script>
+    <script> CheckForHistory() </script>
 </body>
 </html>
