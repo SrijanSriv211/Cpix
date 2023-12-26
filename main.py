@@ -27,8 +27,7 @@ def database():
 
 def clean_sentence(text):
     toks = tokenize(text.lower())
-    clean_toks = stop_words(toks)
-    return " ".join([lemmatize(word) for word in clean_toks])
+    return " ".join([lemmatize(word) for word in toks])
 
 list_of_titles = database()
 def color_rank(text):

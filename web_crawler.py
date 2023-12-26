@@ -29,7 +29,7 @@ def crawl(url):
             # Extract all the links (URLs) on the page
             links = [a["href"] for a in soup.find_all("a", href=True) if a["href"].startswith("http")]
 
-            return title, meta_description, meta_keywords, links
+            return ("", "", [], []) if title == "" else (title, meta_description, meta_keywords, links)
 
         else:
             with open("crashreport.txt", "a", encoding="utf-8") as f:
@@ -48,8 +48,8 @@ def save(data):
     with open("index.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-following_links = ["https://www.youtube.com"]
-patience = 100
+following_links = ["https://www.learncbse.in/"]
+patience = 1000
 data = []
 
 print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")

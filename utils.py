@@ -95,7 +95,7 @@ def text_similarity(sentence, sentences):
         ],
         key=lambda x: x[2],
         reverse=True
-    )[:10]
+    )[:40]
 
     sentences = []
     sentences.append(sentence)
@@ -110,7 +110,7 @@ def text_similarity(sentence, sentences):
     for i, item in enumerate(matching_sentences):
         idx, _, _ = item
         score = cos(b[0], b[i+1]).item()
-        if (score >= 0.5):
+        if (score >= 0.6):
             similar_sentences.append({
                 "index": idx,
                 "score": score,
