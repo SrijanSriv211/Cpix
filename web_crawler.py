@@ -16,19 +16,31 @@ def crawl(url):
             soup = BeautifulSoup(response.text, "html.parser")
 
             # Extract the title of the page
-            title = unicodedata.normalize('NFKD', soup.title.text.strip()) if soup.title else "No Title Found"
+            title = unicodedata.normalize('NFKD', soup.title.text.strip()) if soup.title else ""
+
+            # Extract the meta description of the page
+            meta_description_tag = soup.find('meta', attrs={'name': 'description'})
+            meta_description = meta_description_tag['content'].strip() if meta_description_tag else ""
+
+            # Extract the meta keywords of the page
+            meta_keywords_tag = soup.find('meta', attrs={'name': 'keywords'})
+            meta_keywords = meta_keywords_tag['content'].strip() if meta_keywords_tag else ""
 
             # Extract all the links (URLs) on the page
             links = [a["href"] for a in soup.find_all("a", href=True) if a["href"].startswith("http")]
 
-            return title, links
+            return title, meta_description, meta_keywords, links
 
         else:
-            print(f"Failed to retrieve {url}. Status code: {response.status_code}")
+            with open("crashreport.txt", "a", encoding="utf-8") as f:
+                f.write(f"Failed to retrieve {url}. Status code: {response.status_code}\n")
+
             return ("", [])
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        with open("crashreport.txt", "a", encoding="utf-8") as f:
+            f.write(f"An error occurred: {e}\n")
+
         return ("", [])
 
 def save(data):
@@ -36,25 +48,24 @@ def save(data):
     with open("index.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-with open("data\\index.json", "r", encoding="utf-8") as f:
-    old_index_data = json.load(f)
-
-following_links = [i["URL"] for i in old_index_data]
-following_links.append("https://en.wikipedia.org")
-current_patience = patience = 4000
+following_links = ["https://github.com/Light-Lens/Cpix"]
+current_patience = patience = 100
 count = 0
 data = []
 
 print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
 for link in following_links:
     try:
-        title, links = crawl(link)
+        title, description, keywords, links = crawl(link)
+
         if title != "" or links != []:
             data.append(
                 {
                     "Title": title,
+                    "Description": description,
+                    "Keywords": keywords,
                     "URL": link
-                },
+                }
             )
 
             current_patience -= 1
