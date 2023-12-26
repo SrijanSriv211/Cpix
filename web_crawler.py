@@ -1,6 +1,6 @@
 from colorama import Fore, Style, init
 from bs4 import BeautifulSoup
-import unicodedata, requests, json
+import unicodedata, requests, numpy, json
 
 # Initialize colorama
 init(autoreset = True)
@@ -48,9 +48,8 @@ def save(data):
     with open("index.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-following_links = ["https://github.com/Light-Lens/Cpix"]
-current_patience = patience = 100
-count = 0
+following_links = ["https://www.youtube.com"]
+patience = 100
 data = []
 
 print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
@@ -68,17 +67,17 @@ for link in following_links:
                 }
             )
 
-            current_patience -= 1
-            if current_patience > 0:
+            patience -= 1
+            if patience >= 0:
                 following_links.extend(links)
 
-            elif current_patience == 0:
-                current_patience = patience
-                following_links = following_links[-patience:]
+            elif patience == -1:
+                patience = 100
+                following_links = [numpy.random.choice(following_links)]
                 print()
 
-            count += 1
-            print(f"Scraped [{count}/{len(following_links)}]", end="\r")
+            following_links.remove(link)
+            print(f"Scraped [{len(data)}/{len(following_links)}]", end="\r")
 
     except KeyboardInterrupt:
         break
