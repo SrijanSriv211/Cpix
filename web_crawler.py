@@ -67,6 +67,8 @@ for link in following_links:
                 }
             )
 
+            following_links.remove(link)
+
             patience -= 1
             if patience >= 0:
                 following_links.extend(links)
@@ -76,10 +78,12 @@ for link in following_links:
                 following_links = [numpy.random.choice(following_links)]
                 print()
 
-            following_links.remove(link)
             print(f"Scraped [{len(data)}/{len(following_links)}]", end="\r")
 
     except KeyboardInterrupt:
         break
+
+    except Exception as e:
+        print(e)
 
 save(data)
