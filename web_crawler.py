@@ -35,13 +35,13 @@ def crawl(url):
             with open("crashreport.txt", "a", encoding="utf-8") as f:
                 f.write(f"Failed to retrieve {url}. Status code: {response.status_code}\n")
 
-            return ("", [])
+            return ("", "", [], [])
 
     except Exception as e:
         with open("crashreport.txt", "a", encoding="utf-8") as f:
             f.write(f"An error occurred: {e}\n")
 
-        return ("", [])
+        return ("", "", [], [])
 
 def save(data):
     print(f"{Fore.YELLOW}{Style.BRIGHT}Saving the crawled data..")
