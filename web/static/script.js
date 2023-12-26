@@ -37,9 +37,9 @@ function SendMessage()
 
 function DeleteHistory()
 {
-    const clearHistoryForm = document.getElementById("clear-history-form");
+    const clear_history_form = document.getElementById("clear-history-form");
 
-    clearHistoryForm.addEventListener("submit", function (e)
+    clear_history_form.addEventListener("submit", function (e)
     {
         e.preventDefault();
 
@@ -72,10 +72,17 @@ function CheckForHistory()
 {
     const results = document.getElementById("results");
     const no_search_history_found = document.getElementById("no-search-history-found");
+    const clear_history_form = document.getElementById("clear-history-form");
 
     if (results.querySelectorAll("li").length > 0)
+    {
         no_search_history_found.style.display = "none";
+        clear_history_form.style.display = "block";
+    }
     
     else
+    {
         no_search_history_found.style.display = "block";
+        clear_history_form.style.display = "none";
+    }
 }
