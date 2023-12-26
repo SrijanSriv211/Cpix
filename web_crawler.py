@@ -48,8 +48,8 @@ def save(data):
     with open("index.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-following_links = ["https://www.learncbse.in/"]
-patience = 1000
+following_links = ["https://www.youtube.com"]
+patience = 100
 data = []
 
 print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
@@ -67,7 +67,8 @@ for link in following_links:
                 }
             )
 
-            following_links.remove(link)
+            if link in following_links:
+                following_links.remove(link)
 
             patience -= 1
             if patience >= 0:
