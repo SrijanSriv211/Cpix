@@ -107,39 +107,6 @@ class Crawler:
         with open(self.index_outpath, "w", encoding="utf-8") as f:
             json.dump(self.data, f, ensure_ascii=False, indent=4)
 
-# with open("data\\top-1m.txt", "r", encoding="utf-8") as f:
-#     following_links = [i.strip() for i in f.readlines()]
-
-# data = []
-
-# print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
-# for link in following_links:
-#     try:
-#         title, description, links = crawl(link)
-
-#         if title != "" or links != []:
-#             data.append(
-#                 {
-#                     "Title": title,
-#                     "Description": description,
-#                     "URL": link
-#                 }
-#             )
-
-#             with open("data\\following.txt", "a", encoding="utf-8") as f:
-#                 f.write("\n".join(links) + "\n")
-
-#         print(f"Scraped [{len(data)}/{len(following_links)}]", end="\r")
-
-#     except KeyboardInterrupt:
-#         print()
-#         break
-
-#     except Exception as e:
-#         print(e)
-
-# save(data)
-
 if __name__ == "__main__":
     crawler = Crawler("data\\top-1m.txt", "index.json", "data\\following.txt")
     crawler.load()
