@@ -72,7 +72,7 @@ with open("data\\top-1m.txt", "r", encoding="utf-8") as f:
     following_links = [i.strip() for i in f.readlines()]
 
 # following_links = ["https://www.youtube.com"]
-patience, i = 100, 0
+patience = 100
 data = []
 
 print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
@@ -88,6 +88,9 @@ for link in following_links:
                     "URL": link
                 }
             )
+
+            with open("data\\following.txt", "a", encoding="utf-8") as f:
+                f.write("\n".join(links))
 
             # if link in following_links:
             #     following_links.remove(link)
