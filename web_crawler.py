@@ -1,114 +1,121 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+
 from colorama import Fore, Style, init
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-import unicodedata, requests, json
+import unicodedata, json
 
 # Initialize colorama
 init(autoreset = True)
 
-class Crawler:
-    def __init__(self, load_path, index_outpath, following_outpath):
-        self.data = []
-        self.load_path = load_path
-        self.index_outpath = index_outpath
-        self.following_outpath = following_outpath
+def crawl(url):
+    try:
+        # Use Selenium to open the webpage and interact with dynamic content
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
+        service = ChromeService(executable_path = "vendor\chromedriver-win64\chromedriver.exe")  # Set the path to your chromedriver executable
+        driver = webdriver.Chrome(service=service, options=options)
 
-    def crawl(self):
-        print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
-        for link in self.following_links:
-            try:
-                title, description, links = self.crawl_site(link)
+        driver.get(url)
 
-                if title != "" or links != []:
-                    self.data.append(
-                        {
-                            "Title": title,
-                            "Description": description,
-                            "URL": link
-                        }
-                    )
+        # Wait for some time to let the page load dynamically
+        driver.implicitly_wait(10)
 
-                    with open(self.following_outpath, "a", encoding="utf-8") as f:
-                        f.write("\n".join(links) + "\n")
+        # Get the page source after it has loaded dynamically
+        page_source = driver.page_source
 
-                print(f"{Fore.WHITE}{Style.BRIGHT}Scraped [{len(self.data)}/{len(self.following_links)}]", end="\r")
-                self.load() #! TODO: This is a temp line. Remove it later.
+        # Close the Selenium WebDriver
+        driver.quit()
 
-            except KeyboardInterrupt:
-                print(f"{Fore.RED}{Style.BRIGHT}\nStopping..")
-                break
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(page_source, "html.parser")
 
-            except Exception as e:
-                print(e)
+        # Extract the title of the page
+        title = unicodedata.normalize('NFKD', soup.title.text.strip()) if soup.title else ""
 
-    def crawl_site(self, url):
-        try:
-            # Check if the URL has a scheme; if not, prepend "https://"
-            if not url.startswith(('http://', 'https://')):
-                url = 'https://' + url
+        # Extract the meta description of the page
+        meta_description_tag = soup.find('meta', attrs={'name': 'description'})
+        meta_description = meta_description_tag['content'].strip() if meta_description_tag else ""
 
-            # Make an HTTP request to the specified URL
-            response = requests.get(url)
+        # Extract all the links (URLs) on the page
+        links = []
+        for a in soup.find_all("a", href=True):
+            if a["href"].startswith("http"):
+                links.append(a["href"])
 
-            # Check if the request was successful (status code 200)
-            if response.status_code == 200:
-                # Parse the HTML content of the page
-                soup = BeautifulSoup(response.text, "html.parser")
+            elif a["href"].startswith("/"):
+                links.append(urljoin(url, a["href"]))
 
-                # Extract the title of the page
-                title = unicodedata.normalize('NFKD', soup.title.text.strip()) if soup.title else ""
+        return ("", "", []) if title == "" else (title, meta_description, links)
 
-                # Extract the meta description of the page
-                meta_description_tag = soup.find('meta', attrs={'name': 'description'})
-                meta_description = meta_description_tag['content'].strip() if meta_description_tag else ""
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return ("", "", [])
 
-                # Extract all the links (URLs) on the page
-                links = [a["href"] for a in soup.find_all("a", href=True) if a["href"].startswith("http")]
+def calculate_pagerank(links, num_iterations=10, damping_factor=0.85):
+    print(f"{Fore.YELLOW}{Style.BRIGHT}Page Ranking crawled data..")
 
-                return ("", "", []) if title == "" else (title, meta_description, links)
+    # Initialize PageRank scores
+    page_ranks = {link: 1.0 for link in links}
 
-            else:
-                with open("crashreport.txt", "a", encoding="utf-8") as f:
-                    f.write(f"Failed to retrieve {url}. Status code: {response.status_code}\n")
+    for _ in range(num_iterations):
+        new_page_ranks = {}
+        for page in links:
+            # Calculate the new PageRank score for each page
+            new_page_rank = (1 - damping_factor) + damping_factor * sum(
+                page_ranks[link] / len(links) for link in links if page in page_ranks[link]
+            )
+            new_page_ranks[page] = new_page_rank
 
-                return ("", "", [])
+        # Update the PageRank scores for the next iteration
+        page_ranks = new_page_ranks
 
-        except Exception as e:
-            with open("crashreport.txt", "a", encoding="utf-8") as f:
-                f.write(f"An error occurred: {e}\n")
+    return page_ranks
 
-            return ("", "", [])
+def save(data):
+    print(f"{Fore.YELLOW}{Style.BRIGHT}Saving the crawled data..")
+    with open("data\\index.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
-    def calculate_pagerank(self, links, num_iterations=10, damping_factor=0.85):
-        print(f"{Fore.YELLOW}{Style.BRIGHT}Calculating PageRanks..")
+data = []
+following_links = [
+    "https://github.com/Light-Lens?tab=repositories",
+    "https://www.youtube.com/@OnestateCoding/videos",
+    "https://stackoverflow.com/users/18121288/light-lens",
+    "https://scratch.mit.edu/users/SuperStarIndustries",
+    "https://superstar-games.itch.io",
+    "https://www.instagram.com/srijansrivastava72",
+    "https://uscontent.blogspot.com"
+]
 
-        # Initialize PageRank scores
-        page_ranks = {link: 1.0 for link in links}
+print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
+for i in range(1000):
+    try:
+        link = following_links[i]
+        title, description, links = crawl(link)
 
-        for _ in range(num_iterations):
-            new_page_ranks = {}
-            for page in links:
-                # Calculate the new PageRank score for each page
-                new_page_rank = (1 - damping_factor) + damping_factor * sum(
-                    page_ranks[link] / len([link for link in links if link in page_ranks]) for link in links if page in page_ranks.get(link, [])
-                )
-                new_page_ranks[page] = new_page_rank
+        if title != "":
+            data.append(
+                {
+                    "Title": title,
+                    "Description": description,
+                    "URL": link
+                }
+            )
 
-            # Update the PageRank scores for the next iteration
-            page_ranks = new_page_ranks
+            following_links.extend(links)
+            print(f"{Fore.WHITE}{Style.BRIGHT}Scraped [{len(data)}/{len(following_links)}]", end="\r")
 
-        return page_ranks
+    except KeyboardInterrupt:
+        print(f"{Fore.RED}{Style.BRIGHT}\nStopping..")
+        break
 
-    def load(self):
-        with open(self.load_path, "r", encoding="utf-8") as f:
-            self.following_links = [i.strip() for i in f.readlines()]
+    except Exception as e:
+        print(e)
 
-    def save(self):
-        print(f"{Fore.YELLOW}{Style.BRIGHT}Saving the crawled data..")
-        with open(self.index_outpath, "w", encoding="utf-8") as f:
-            json.dump(self.data, f, ensure_ascii=False, indent=4)
+# page_ranks = calculate_pagerank(following_links)
+# for entry in data:
+#     entry["PageRank"] = page_ranks.get(entry["URL"], 0.0)
 
-if __name__ == "__main__":
-    crawler = Crawler("data\\top-1m.txt", "index.json", "data\\following.txt")
-    crawler.load()
-    crawler.crawl()
-    crawler.save()
+save(data)
