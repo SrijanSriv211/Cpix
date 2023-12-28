@@ -104,7 +104,7 @@ for link in following_links:
             #     following_links = [numpy.random.choice(following_links)]
             #     print()
 
-        print(f"Scraped [{len(data)}/{len(following_links)}]", f"Name: {link}", " " * (len(link) * 2), end="\r")
+        print(f"Scraped [{len(data)}/{len(following_links)}]", end="\r")
 
     except KeyboardInterrupt:
         print()
