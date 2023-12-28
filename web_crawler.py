@@ -90,7 +90,7 @@ for link in following_links:
             )
 
             with open("data\\following.txt", "a", encoding="utf-8") as f:
-                f.write("\n".join(links))
+                f.write("\n".join(links) + "\n")
 
             # if link in following_links:
             #     following_links.remove(link)
