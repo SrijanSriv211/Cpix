@@ -44,7 +44,7 @@ def crawl(url):
         return ("", "", [])
 
 def calculate_pagerank(links, num_iterations=10, damping_factor=0.85):
-    print(f"{Fore.YELLOW}{Style.BRIGHT}\nCalculating PageRanks..")
+    print(f"{Fore.YELLOW}{Style.BRIGHT}Calculating PageRanks..")
 
     # Initialize PageRank scores
     page_ranks = {link: 1.0 for link in links}
@@ -107,6 +107,7 @@ for link in following_links:
         print(f"Scraped [{len(data)}/{len(following_links)}]", f"Name: {link}", " " * (len(link) * 2), end="\r")
 
     except KeyboardInterrupt:
+        print()
         break
 
     except Exception as e:
