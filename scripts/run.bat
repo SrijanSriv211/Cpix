@@ -1,4 +1,3 @@
 @echo off
 
-.venv\Scripts\activate
-flask run
+.venv\Scripts\activate && flask run
