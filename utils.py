@@ -24,9 +24,11 @@ def lemmatize(word):
     return Lemmatizer.lemmatize(word.lower().strip())
 
 def stop_words(tokens):
-    ignore_words = '''|!()-[]{};:'"\,<>./?@#$%^&*_~+'''
+    ignore_words = '''|!()-[]{};:'"\,<>./?@#$%^&*_~+·'''
     filler_words = set(stopwords.words("english"))
-    emoj = re.compile("["
+    # https://stackoverflow.com/a/58356570/18121288
+    emoj = re.compile(
+        "["
         u"\U0001F600-\U0001F64F"  # emoticons
         u"\U0001F300-\U0001F5FF"  # symbols & pictographs
         u"\U0001F680-\U0001F6FF"  # transport & map symbols
@@ -45,35 +47,17 @@ def stop_words(tokens):
         u"\u231a"
         u"\ufe0f"  # dingbats
         u"\u3030"
-        "]+", re.UNICODE)
+        "]+", re.UNICODE
+    )
 
     # https://stackoverflow.com/a/47301893/18121288
-    removetable = str.maketrans("", "", ignore_words)
+    removetable = str.maketrans(dict.fromkeys(ignore_words, ' ')) # Create a translation table to replace ignore_words with whitespaces
     all_toks = [tok.translate(removetable) for tok in tokens]
     remove_emoji = [re.sub(emoj, '', i) for i in all_toks]
     clean_toks = list(filter(None, remove_emoji))
     all_words = [stem(word) for word in clean_toks]
-    return [word for word in all_words if word not in filler_words]
-
-# Arrange words in such a way to form a logical sentence.
-def arrange_words(tokens):
-    """
-    A number will represent the number of empty strings in a list.
-    For example: 4 -> ["", "", "", ""].
-    """
-
-    processed_tokens = []
-    for sublist in tokens:
-        if isinstance(sublist[-1], int):
-            empty_list = [""] * sublist[-1]
-            processed_tokens.append(sublist[:-1] + empty_list)
-
-        else:
-            processed_tokens.append(sublist)
-
-    # Construct a logical sentence.
-    sentence = [numpy.random.choice(i).strip() for i in processed_tokens]
-    return " ".join(sentence)
+    remove_filler_words = [word for word in all_words if word not in filler_words]
+    return (" ".join(remove_filler_words)).split()
 
 # Code refrence from: https://stackoverflow.com/a/65201576/18121288
 def text_similarity(sentence, sentences):
@@ -95,25 +79,32 @@ def text_similarity(sentence, sentences):
         ],
         key=lambda x: x[2],
         reverse=True
-    )[:40]
-
-    sentences = []
-    sentences.append(sentence)
-    sentences.extend([i[1] for i in matching_sentences])
-
-    sentence_embeddings = model.encode(sentences)
-
-    cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
-    b = torch.from_numpy(sentence_embeddings)
+    )[:20]
 
     similar_sentences = []
-    for i, item in enumerate(matching_sentences):
-        idx, _, _ = item
-        score = cos(b[0], b[i+1]).item()
-        if (score >= 0.6):
-            similar_sentences.append({
-                "index": idx,
-                "score": score,
-            })
+    for i in matching_sentences:
+        similar_sentences.append({
+            "index": i[0],
+            "score": i[2],
+        })
+
+    # sentences = []
+    # sentences.append(sentence)
+    # sentences.extend([i[1] for i in matching_sentences])
+
+    # sentence_embeddings = model.encode(sentences)
+
+    # cos = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
+    # b = torch.from_numpy(sentence_embeddings)
+
+    # similar_sentences = []
+    # for i, item in enumerate(matching_sentences):
+    #     idx, _, _ = item
+    #     score = cos(b[0], b[i+1]).item()
+    #     if (score >= 0.6):
+    #         similar_sentences.append({
+    #             "index": idx,
+    #             "score": score,
+    #         })
 
     return sorted(similar_sentences, key=lambda x: x["score"], reverse=True)
