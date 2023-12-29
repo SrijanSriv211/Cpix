@@ -1,14 +1,17 @@
 from flask import Flask, render_template, request
 from colorama import Fore, Style, init
-from main import color_rank
+from src.color.color import Color
 from pprint import pprint
 import time, os
 
-# Initialize colorama
+# Initialize colorama & Color
 init(autoreset = True)
+C = Color()
+C.load_websites("data\\index.json")
+C.preprocess()
 
-app = Flask(__name__, template_folder="web\\templates", static_folder="web\\static")
-user_history_path = "web\\history\\user_history.txt"
+app = Flask(__name__, template_folder="src\\web\\templates", static_folder="src\\web\\static")
+user_history_path = "src\\web\\history\\user_history.txt"
 if os.path.isfile(user_history_path) == False:
     with open(user_history_path, "w", encoding="utf-8") as f:
         f.write("")
@@ -29,7 +32,7 @@ def search():
 
     # Use my Color search algo to search.
     start_time = time.time()
-    results = color_rank(text)
+    results = C.search(text)
     end_time = time.time()
 
     time_taken = f"About {len(results)} results ({(end_time - start_time):.2f} seconds)"
