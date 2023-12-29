@@ -60,12 +60,19 @@ function ChangeTitle()
 {
     const results = document.getElementById("results");
     const title = document.getElementById("title");
+    const time_taken = document.getElementById("time-taken");
 
     if (results.querySelectorAll("li").length > 0)
+    {
         title.id = "results-title";
+        time_taken.style.display = "block";
+    }
 
     else
+    {
         title.id = "title";
+        time_taken.style.display = "none";
+    }
 }
 
 function CheckForHistory()
