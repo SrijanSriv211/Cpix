@@ -92,8 +92,8 @@ def main(seed, n):
     save(data)
 
 links = [
-    "https://github.com/Light-Lens?tab=repositories",
-    "https://www.youtube.com/@OnestateCoding/videos",
+    # "https://github.com/Light-Lens?tab=repositories",
+    # "https://www.youtube.com/@OnestateCoding/videos",
     "https://stackoverflow.com/users/18121288/light-lens",
     "https://scratch.mit.edu/users/SuperStarIndustries",
     "https://superstar-games.itch.io",
@@ -102,4 +102,4 @@ links = [
 ]
 
 for link in links:
-    main(link, 5000)
+    main(link, 558)
