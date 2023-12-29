@@ -32,10 +32,11 @@ def search():
     results = color_rank(text)
     end_time = time.time()
 
-    time_taken = f"About {(end_time - start_time):.2f} seconds"
+    time_taken = f"About {len(results)} results ({(end_time - start_time):.2f} seconds)"
 
     print(f"{Fore.YELLOW}{Style.BRIGHT}SEARCH QUERY:", text)
-    pprint(f"{Fore.WHITE}{Style.BRIGHT}RESULTS:\n{results}")
+    print(f"{Fore.YELLOW}{Style.BRIGHT}RESULTS:")
+    pprint(results)
     print(f"{Fore.WHITE}{Style.BRIGHT}{time_taken}")
 
     # Render the results.
