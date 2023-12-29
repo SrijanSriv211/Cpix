@@ -97,5 +97,6 @@ function CheckForHistory()
 function ToggleResultBlock(element)
 {
     var result_desc = element.querySelector("#result-desc");
-    result_desc.style.display = (result_desc.style.display === "none") ? "block" : "none";
+    if (result_desc.innerText.trim() != "")
+        result_desc.style.display = (result_desc.style.display === "none") ? "block" : "none";
 }
