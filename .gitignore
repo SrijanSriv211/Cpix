@@ -2,4 +2,4 @@
 __pycache__/
 vendor/
 
-web/history/user_history.txt
+user_history.txt
