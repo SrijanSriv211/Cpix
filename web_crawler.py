@@ -14,7 +14,7 @@ def crawl(url):
         # Use Selenium to open the webpage and interact with dynamic content
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
-        service = ChromeService(executable_path = "vendor\chromedriver-win64\chromedriver.exe")  # Set the path to your chromedriver executable
+        service = ChromeService(executable_path = "vendor\\chromedriver-win64\\chromedriver.exe")  # Set the path to your chromedriver executable
         driver = webdriver.Chrome(service=service, options=options)
 
         driver.get(url)
@@ -53,33 +53,45 @@ def crawl(url):
         print(f"An error occurred: {e}")
         return ("", "", [])
 
-def calculate_pagerank(links, num_iterations=10, damping_factor=0.85):
-    print(f"{Fore.YELLOW}{Style.BRIGHT}Page Ranking crawled data..")
-
-    # Initialize PageRank scores
-    page_ranks = {link: 1.0 for link in links}
-
-    for _ in range(num_iterations):
-        new_page_ranks = {}
-        for page in links:
-            # Calculate the new PageRank score for each page
-            new_page_rank = (1 - damping_factor) + damping_factor * sum(
-                page_ranks[link] / len(links) for link in links if page in page_ranks[link]
-            )
-            new_page_ranks[page] = new_page_rank
-
-        # Update the PageRank scores for the next iteration
-        page_ranks = new_page_ranks
-
-    return page_ranks
-
 def save(data):
     print(f"{Fore.YELLOW}{Style.BRIGHT}Saving the crawled data..")
-    with open("data\\index.json", "w", encoding="utf-8") as f:
+    with open("data\\index.json", "a", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-data = []
-following_links = [
+def main(seed, n):
+    print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
+    following_links = [seed]
+    data = []
+
+    for i in range(n):
+        try:
+            link = following_links[i]
+            title, description, links = crawl(link)
+
+            if title == "":
+                continue
+
+            data.append(
+                {
+                    "Title": title,
+                    "Description": description,
+                    "PageRank": 0,
+                    "URL": link
+                }
+            )
+
+            following_links.extend(links)
+
+        except KeyboardInterrupt:
+            print(f"{Fore.RED}{Style.BRIGHT}\nStopping..")
+            break
+
+        except Exception as e:
+            print(e)
+
+    save(data)
+
+links = [
     "https://github.com/Light-Lens?tab=repositories",
     "https://www.youtube.com/@OnestateCoding/videos",
     "https://stackoverflow.com/users/18121288/light-lens",
@@ -89,33 +101,5 @@ following_links = [
     "https://uscontent.blogspot.com"
 ]
 
-print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
-for i in range(1000):
-    try:
-        link = following_links[i]
-        title, description, links = crawl(link)
-
-        if title != "":
-            data.append(
-                {
-                    "Title": title,
-                    "Description": description,
-                    "URL": link
-                }
-            )
-
-            following_links.extend(links)
-            print(f"{Fore.WHITE}{Style.BRIGHT}Scraped [{len(data)}/{len(following_links)}]", end="\r")
-
-    except KeyboardInterrupt:
-        print(f"{Fore.RED}{Style.BRIGHT}\nStopping..")
-        break
-
-    except Exception as e:
-        print(e)
-
-# page_ranks = calculate_pagerank(following_links)
-# for entry in data:
-#     entry["PageRank"] = page_ranks.get(entry["URL"], 0.0)
-
-save(data)
+for link in links:
+    main(link, 5000)
