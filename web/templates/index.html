@@ -24,7 +24,10 @@
     <div class="results-container">
         <ul id="results">
             {% for result in results %}
-                <li><a href="{{ result.URL }}">{{ result.Title }}</a></li>
+                <li id="result-block" onclick="ToggleResultBlock(this);">
+                    <a href="{{ result.URL }}">{{ result.Title }}</a>
+                    <h1 style="display: none;" id="result-desc">{{ result.Description }}</h1>
+                </li>
             {% endfor %}
         </ul>
     </div>
@@ -37,5 +40,8 @@
     <script> Focus_on_inputbox(); </script>
     <script> SendMessage(); </script>
     <script> ChangeTitle(); </script>
+    <script>
+        result_desc.style.display = "none";
+    </script>
 </body>
 </html>

@@ -64,6 +64,7 @@ nav ul li a:hover
     right: 3%;
     transform: translate(-3%, -3%);
     color: #1f1f1f;
+    cursor: default;
 }
 
 #results-title
@@ -128,6 +129,13 @@ nav ul li a:hover
 {
     text-decoration: underline;
     transition: 0.2s;
+}
+
+#result-desc
+{
+    font-size: 15px;
+    font-weight: light;
+    margin-top: 20px;
 }
 
 .search-container

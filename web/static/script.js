@@ -93,3 +93,9 @@ function CheckForHistory()
         clear_history_form.style.display = "none";
     }
 }
+
+function ToggleResultBlock(element)
+{
+    var result_desc = element.querySelector("#result-desc");
+    result_desc.style.display = (result_desc.style.display === "none") ? "block" : "none";
+}
