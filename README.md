@@ -1,6 +1,4 @@
 # Cpix
-![Cpix](https://github.com/Light-Lens/Cpix/blob/master/web/static/img/icon.png?raw=true)
-
 Cpix is a custom search engine that operates offline, providing you with unparalleled privacy and control over your search experience. Say goodbye to sending your search queries and personal data to remote servers – with Cpix, everything happens right on your device.
 
 For a visual introduction, check out my YouTube video: https://youtu.be/wIa6YTm-_iY
