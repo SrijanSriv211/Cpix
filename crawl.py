@@ -40,11 +40,14 @@ def main(url, n):
 
 # Download books
 crawl =  crawler("src\\vendor\\chromedriver-win64\\chromedriver.exe")
-crawl.fetch("https://www.pdfdrive.com/the-purpose-driven-life-what-on-earth-am-i-here-for-e185720921.html")
-links = list(set(crawl.links))
+crawl.fetch("https://www.pdfdrive.com")
+links = [i for i in list(set(crawl.links)) if i.endswith(".html")]
 
-for i in links:
-    if i.endswith(".html"):
-        print(i)
+for link in links:
+    if len(links) - 1 >= 1e6:
+        break
+
+    crawl.fetch(link)
+    links.extend([i for i in list(set(crawl.links)) if i.endswith(".html")])
 
 crawl.close()

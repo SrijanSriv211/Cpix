@@ -42,7 +42,7 @@ class crawler:
             bookID = bookID.replace("/ebook/preview", "/download.pdf")
             bookID = bookID.replace("&session=", "&h=")
             bookID += "&u=cache&ext=pdf"
-            webbrowser.open(f"https://www.pdfdrive.com{bookID}")
+            self._driver.get(f"https://www.pdfdrive.com{bookID}")
 
             # # extract the title of the page
             # title = unicodedata.normalize('NFKD', soup.title.text.strip()) if soup.title else ""
