@@ -1,5 +1,6 @@
 .venv/
 __pycache__/
 vendor/
+data/books/
 
 user_history.txt

@@ -2,14 +2,13 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-import unicodedata, requests, json
+import unicodedata, requests, json, os
 
 class crawler:
     def __init__(self, path_to_chrome_driver):
         # use Selenium to open the webpage and interact with dynamic content
         options = webdriver.ChromeOptions()
         options.add_argument('--headless') # run Chrome in headless mode (no GUI)
-        options.add_argument('--disable-logging')  # disable logging
         service = ChromeService(executable_path = path_to_chrome_driver) # set the path to your chromedriver executable
         self._driver = webdriver.Chrome(service=service, options=options)
         self.links, self.data = [], []
@@ -51,15 +50,20 @@ class crawler:
             response = requests.get(f"https://www.pdfdrive.com{book_id}")
 
             # Check if the request was successful (status code 200)
+            savepath = f"data\\books\\{formatted_book_name}"
             if response.status_code == 200:
-                # Open the file in binary mode and write the content of the response
-                with open(f"data\\books\\{formatted_book_name}", 'wb') as file:
-                    file.write(response.content)
+                if os.path.isfile(savepath):
+                    print(f"File already downloaded: '{savepath}'")
 
-                print(f"File downloaded successfully to 'data\\books\\{formatted_book_name}'")
+                else:
+                    # Open the file in binary mode and write the content of the response
+                    with open(savepath, 'wb') as file:
+                        file.write(response.content)
+
+                    print(f"File downloaded successfully: '{savepath}'")
 
             else:
-                print(f"Failed to download file 'data\\books\\{formatted_book_name}'. Status code: {response.status_code}")
+                print(f"Failed to download file '{savepath}'. Status code: {response.status_code}")
 
             # extract all the links (URLs) on the page
             for a in soup.find_all("a", href=True):
