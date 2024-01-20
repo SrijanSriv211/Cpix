@@ -2,52 +2,76 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-import unicodedata, json
+import unicodedata, webbrowser, json
 
-def crawl(url, path_to_chrome_driver):
-    try:
-        # Use Selenium to open the webpage and interact with dynamic content
+class crawler:
+    def __init__(self, path_to_chrome_driver):
+        # use Selenium to open the webpage and interact with dynamic content
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
-        service = ChromeService(executable_path = path_to_chrome_driver)  # Set the path to your chromedriver executable
-        driver = webdriver.Chrome(service=service, options=options)
+        options.add_argument('--headless') # run Chrome in headless mode (no GUI)
+        options.add_argument('--disable-logging')  # disable logging
+        service = ChromeService(executable_path = path_to_chrome_driver) # set the path to your chromedriver executable
+        self._driver = webdriver.Chrome(service=service, options=options)
+        self.links, self.data = [], []
 
-        driver.get(url)
+    # save the data
+    def save(self, savepath):
+        with open(savepath, "a", encoding="utf-8") as f:
+            json.dump(self.data, f, ensure_ascii=False, indent=4)
 
-        # Wait for some time to let the page load dynamically
-        driver.implicitly_wait(10)
+    # close the Selenium WebDriver
+    def close(self):
+        self._driver.quit()
 
-        # Get the page source after it has loaded dynamically
-        page_source = driver.page_source
+    def fetch(self, url, wait_time=10):
+        try:
+            self._driver.get(url)
 
-        # Close the Selenium WebDriver
-        driver.quit()
+            # wait for some time to let the page load dynamically
+            self._driver.implicitly_wait(wait_time)
 
-        # Parse the HTML content of the page
-        soup = BeautifulSoup(page_source, "html.parser")
+            # get the page source after it has loaded dynamically
+            page_source = self._driver.page_source
 
-        # Extract the title of the page
-        title = unicodedata.normalize('NFKD', soup.title.text.strip()) if soup.title else ""
+            # parse the HTML content of the page
+            soup = BeautifulSoup(page_source, "html.parser")
 
-        # Extract the meta description of the page
-        meta_description_tag = soup.find('meta', attrs={'name': 'description'})
-        meta_description = meta_description_tag['content'].strip() if meta_description_tag else ""
+            #NOTE: To be removed later
+            # extract book
+            bookID = soup.find("button", attrs={"id": "previewButtonMain"})["data-preview"]
+            bookID = bookID.replace("/ebook/preview", "/download.pdf")
+            bookID = bookID.replace("&session=", "&h=")
+            bookID += "&u=cache&ext=pdf"
+            webbrowser.open(f"https://www.pdfdrive.com{bookID}")
 
-        # Extract all the links (URLs) on the page
-        links = []
-        for a in soup.find_all("a", href=True):
-            if a["href"].startswith("http"):
-                links.append(a["href"])
+            # # extract the title of the page
+            # title = unicodedata.normalize('NFKD', soup.title.text.strip()) if soup.title else ""
+            # if title == "":
+            #     return
 
-            elif a["href"].startswith("/"):
-                links.append(urljoin(url, a["href"]))
+            # # extract the meta description of the page
+            # meta_description_tag = soup.find('meta', attrs={'name': 'description'})
+            # meta_description = meta_description_tag['content'].strip() if meta_description_tag else ""
 
-        return ("", "", []) if title == "" else (title, meta_description, links)
+            # extract all the links (URLs) on the page
+            for a in soup.find_all("a", href=True):
+                if a["href"].startswith("http"):
+                    self.links.append(a["href"])
 
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return ("", "", [])
+                elif a["href"].startswith("/"):
+                    self.links.append(urljoin(url, a["href"]))
 
-def save(data):
-    with open("data\\index.json", "a", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+            # remove duplicate links
+            self.links = list(set(self.links))
+
+            # # append the data
+            # self.data.append(
+            #     {
+            #         "Title": title,
+            #         "Description": meta_description,
+            #         "URL": url
+            #     }
+            # )
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
