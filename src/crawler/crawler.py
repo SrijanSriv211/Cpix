@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-import unicodedata, requests, json
+import unicodedata, webbrowser, json
 
 class crawler:
     def __init__(self, path_to_chrome_driver):
@@ -42,7 +42,7 @@ class crawler:
             bookID = bookID.replace("/ebook/preview", "/download.pdf")
             bookID = bookID.replace("&session=", "&h=")
             bookID += "&u=cache&ext=pdf"
-            requests.get(f"https://www.pdfdrive.com{bookID}")
+            webbrowser.open(f"https://www.pdfdrive.com{bookID}")
 
             # extract all the links (URLs) on the page
             for a in soup.find_all("a", href=True):
