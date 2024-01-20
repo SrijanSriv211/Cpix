@@ -40,7 +40,7 @@ def main(url, n):
 
 # Download books
 crawl =  crawler("src\\vendor\\chromedriver-win64\\chromedriver.exe")
-crawl.fetch("https://www.pdfdrive.com/sapiens-a-brief-history-of-humankind-e175870479.html", wait_time=2)
+crawl.fetch_books("https://www.pdfdrive.com/sapiens-a-brief-history-of-humankind-e175870479.html", wait_time=2)
 links = [i for i in list(set(crawl.links)) if i.endswith(".html")]
 
 for link in links:
