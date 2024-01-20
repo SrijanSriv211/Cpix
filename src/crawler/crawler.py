@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-import unicodedata, webbrowser, json
+import unicodedata, requests, json
 
 class crawler:
     def __init__(self, path_to_chrome_driver):
@@ -38,11 +38,28 @@ class crawler:
             soup = BeautifulSoup(page_source, "html.parser")
 
             # extract book
-            bookID = soup.find("button", attrs={"id": "previewButtonMain"})["data-preview"]
-            bookID = bookID.replace("/ebook/preview", "/download.pdf")
-            bookID = bookID.replace("&session=", "&h=")
-            bookID += "&u=cache&ext=pdf"
-            webbrowser.open(f"https://www.pdfdrive.com{bookID}")
+            ignore_chars = """\/:*?"<>|"""
+            book_name = soup.find("h1", attrs={"class": "ebook-title"}).text
+            formatted_book_name = "".join([i for i in book_name if i not in ignore_chars]) + ".pdf"
+
+            book_id = soup.find("button", attrs={"id": "previewButtonMain"})["data-preview"]
+            book_id = book_id.replace("/ebook/preview", "/download.pdf")
+            book_id = book_id.replace("&session=", "&h=")
+            book_id += "&u=cache&ext=pdf"
+
+            # Send a GET request to the URL
+            response = requests.get(f"https://www.pdfdrive.com{book_id}")
+
+            # Check if the request was successful (status code 200)
+            if response.status_code == 200:
+                # Open the file in binary mode and write the content of the response
+                with open(f"data\\books\\{formatted_book_name}", 'wb') as file:
+                    file.write(response.content)
+
+                print(f"File downloaded successfully to 'data\\books\\{formatted_book_name}'")
+
+            else:
+                print(f"Failed to download file 'data\\books\\{formatted_book_name}'. Status code: {response.status_code}")
 
             # extract all the links (URLs) on the page
             for a in soup.find_all("a", href=True):
