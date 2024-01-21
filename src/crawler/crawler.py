@@ -24,64 +24,6 @@ class crawler:
                 json.dump(data, f, ensure_ascii=False, indent=4)
                 f.write(",\n")
 
-    #NOTE: To be removed later
-    def fetch_books(self, url, wait_time=10):
-        try:
-            self._driver.get(url)
-
-            # wait for some time to let the page load dynamically
-            self._driver.implicitly_wait(wait_time)
-
-            # get the page source after it has loaded dynamically
-            page_source = self._driver.page_source
-
-            # parse the HTML content of the page
-            soup = BeautifulSoup(page_source, "html.parser")
-
-            # extract book
-            ignore_chars = """\/:*?"<>|"""
-            book_name = soup.find("h1", attrs={"class": "ebook-title"}).text
-            formatted_book_name = "".join([i for i in book_name if i not in ignore_chars]) + ".pdf"
-
-            book_id = soup.find("button", attrs={"id": "previewButtonMain"})["data-preview"]
-            book_id = book_id.replace("/ebook/preview", "/download.pdf")
-            book_id = book_id.replace("&session=", "&h=")
-            book_id += "&u=cache&ext=pdf"
-
-            # Send a GET request to the URL
-            response = requests.get(f"https://www.pdfdrive.com{book_id}")
-
-            # Check if the request was successful (status code 200)
-            files = [f"data\\books\\{i.lower()}" for i in os.listdir("data\\books\\")]
-            savepath = f"data\\books\\{formatted_book_name}"
-            if response.status_code == 200:
-                if savepath.lower() in files:
-                    print(f"File already downloaded: '{savepath}'")
-
-                else:
-                    # Open the file in binary mode and write the content of the response
-                    with open(savepath, 'wb') as file:
-                        file.write(response.content)
-
-                    print(f"File downloaded successfully: '{savepath}'")
-
-            else:
-                print(f"Failed to download file '{savepath}'. Status code: {response.status_code}")
-
-            # extract all the links (URLs) on the page
-            for a in soup.find_all("a", href=True):
-                if a["href"].startswith("http"):
-                    self.links.append(a["href"])
-
-                elif a["href"].startswith("/"):
-                    self.links.append(urljoin(url, a["href"]))
-
-            # remove duplicate links
-            self.links = list(set(self.links))
-
-        except Exception as e:
-            print(f"An error occurred: {e}")
-
     def fetch(self, url, wait_time=10):
         try:
             self._driver.get(url)
