@@ -13,14 +13,16 @@ class crawler:
         self._driver = webdriver.Chrome(service=service, options=options)
         self.links, self.data = [], []
 
-    # save the data
-    def save(self, savepath):
-        with open(savepath, "a", encoding="utf-8") as f:
-            json.dump(self.data, f, ensure_ascii=False, indent=4)
-
     # close the Selenium WebDriver
     def close(self):
         self._driver.quit()
+
+    # save the data
+    def save(self, savepath):
+        with open(savepath, "a", encoding="utf-8") as f:
+            for data in self.data:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+                f.write(",\n")
 
     #NOTE: To be removed later
     def fetch_books(self, url, wait_time=10):
@@ -50,9 +52,10 @@ class crawler:
             response = requests.get(f"https://www.pdfdrive.com{book_id}")
 
             # Check if the request was successful (status code 200)
+            files = [f"data\\books\\{i.lower()}" for i in os.listdir("data\\books\\")]
             savepath = f"data\\books\\{formatted_book_name}"
             if response.status_code == 200:
-                if os.path.isfile(savepath):
+                if savepath.lower() in files:
                     print(f"File already downloaded: '{savepath}'")
 
                 else:

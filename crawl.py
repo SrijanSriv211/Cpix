@@ -1,11 +1,11 @@
 from colorama import Fore, Style, init
 from src.crawler.crawler import crawler
-from bs4 import BeautifulSoup
+import json, os
 
 # Initialize colorama
 init(autoreset = True)
 
-def main(url, n):
+def main(url, n, savepath="data\\index.json"):
     print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
     crawl =  crawler("src\\vendor\\chromedriver-win64\\chromedriver.exe")
     links = [url]
@@ -22,8 +22,11 @@ def main(url, n):
         except Exception as e:
             print(e)
 
+    print(f"{Fore.YELLOW}{Style.BRIGHT}Closing the crawler..")
+    crawl.close()
+
     print(f"{Fore.YELLOW}{Style.BRIGHT}Saving the crawled data..")
-    crawl.save("data\\index.json")
+    crawl.save()
 
 # links = [
 #     "https://github.com/Light-Lens?tab=repositories",
@@ -40,7 +43,7 @@ def main(url, n):
 
 # Download books
 crawl =  crawler("src\\vendor\\chromedriver-win64\\chromedriver.exe")
-crawl.fetch("https://www.pdfdrive.com", wait_time=2)
+crawl.fetch_books("https://www.pdfdrive.com/ncert-class-10-history-e27066083.html", wait_time=2)
 links = [i for i in list(set(crawl.links)) if i.endswith(".html")]
 
 for link in links:
