@@ -1,6 +1,5 @@
 from colorama import Fore, Style, init
 from src.crawler.crawler import crawler
-import json, os
 
 # Initialize colorama
 init(autoreset = True)

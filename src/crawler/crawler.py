@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-import unicodedata, requests, json, os
+import unicodedata, json
 
 class crawler:
     def __init__(self, path_to_chrome_driver):
