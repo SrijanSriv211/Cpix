@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.common.exceptions import WebDriverException
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 import unicodedata, json
@@ -9,6 +10,8 @@ class crawler:
         # use Selenium to open the webpage and interact with dynamic content
         options = webdriver.ChromeOptions()
         options.add_argument('--headless') # run Chrome in headless mode (no GUI)
+        options.add_argument('--log-level=3')  # suppress logging output of the WebDriver
+
         service = ChromeService(executable_path = path_to_chrome_driver) # set the path to your chromedriver executable
         self._driver = webdriver.Chrome(service=service, options=options)
         self.links, self.data = [], []
@@ -21,9 +24,7 @@ class crawler:
     # save the data
     def save(self, savepath):
         with open(savepath, "a", encoding="utf-8") as f:
-            for data in self.data:
-                json.dump(data, f, ensure_ascii=False, indent=4)
-                f.write("\n")
+            json.dump(self.data, f, ensure_ascii=False, indent=4)
 
     def fetch(self, url, wait_time=10):
         try:
@@ -83,6 +84,9 @@ class crawler:
                 # append the new data to the list and hash table
                 self.data.append(new_data)
                 self.url_to_data[url] = new_data
+        
+        except WebDriverException:
+            print("There is some problem with the page.\n")
 
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print(e)
