@@ -12,6 +12,7 @@ class crawler:
         service = ChromeService(executable_path = path_to_chrome_driver) # set the path to your chromedriver executable
         self._driver = webdriver.Chrome(service=service, options=options)
         self.links, self.data = [], []
+        self.url_to_data = {}  # hash table to map URLs to their data
 
     # close the Selenium WebDriver
     def close(self):
@@ -22,7 +23,7 @@ class crawler:
         with open(savepath, "a", encoding="utf-8") as f:
             for data in self.data:
                 json.dump(data, f, ensure_ascii=False, indent=4)
-                f.write(",\n")
+                f.write("\n")
 
     def fetch(self, url, wait_time=10):
         try:
@@ -42,29 +43,46 @@ class crawler:
             if title == "":
                 return
 
-            # extract the meta description of the page
-            meta_description_tag = soup.find('meta', attrs={'name': 'description'})
-            meta_description = meta_description_tag['content'].strip() if meta_description_tag else ""
-
             # extract all the links (URLs) on the page
+            links = []
             for a in soup.find_all("a", href=True):
                 if a["href"].startswith("http"):
-                    self.links.append(a["href"])
+                    links.append(a["href"])
 
                 elif a["href"].startswith("/"):
-                    self.links.append(urljoin(url, a["href"]))
+                    links.append(urljoin(url, a["href"]))
+            links = list(set(links))
+
+            # extract and normalize all text from the body of the page
+            body = soup.body
+            body_text = unicodedata.normalize('NFKD', ' '.join(body.stripped_strings)) if body else ""
 
             # remove duplicate links
-            self.links = list(set(self.links))
+            for link in links:
+                # check if URL already exists in the hash table
+                if link in self.url_to_data:
+                    self.url_to_data[link]['PageRank'] += 1
 
-            # append the data
-            self.data.append(
-                {
+                else:
+                    self.links.append(link)
+
+            # check if URL already exists in the hash table
+            # Resolve the canonical URL
+            if url in self.url_to_data:
+                self.url_to_data[url]['PageRank'] += 1
+
+            else:
+                # create the new data entry
+                new_data = {
                     "Title": title,
-                    "Description": meta_description,
+                    "BodyText": body_text,
+                    "PageRank": 0,
                     "URL": url
                 }
-            )
+
+                # append the new data to the list and hash table
+                self.data.append(new_data)
+                self.url_to_data[url] = new_data
 
         except Exception as e:
             print(f"An error occurred: {e}")

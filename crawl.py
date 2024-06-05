@@ -5,35 +5,38 @@ from src.crawler.crawler import crawler
 init(autoreset = True)
 
 crawl =  crawler("src\\vendor\\chromedriver-win64\\chromedriver.exe")
-def main(url, n):
+def main(url):
     print(f"{Fore.YELLOW}{Style.BRIGHT}Crawling the web..")
     links = [url]
 
-    for i in range(n):
-        try:
-            crawl.fetch(links[i], wait_time=5)
-            links.extend(list(set(crawl.links)))
+    try:
+        crawl.fetch(url, wait_time=5)
+        crawled_links = list(set(crawl.links))
+        links.extend(crawled_links)
 
-        except KeyboardInterrupt:
-            print(f"{Fore.RED}{Style.BRIGHT}\nStopping..")
-            break
+    except Exception as e:
+        print(f"{Fore.RED}{Style.BRIGHT}\nStopping..")
+        print(e)
 
-        except Exception as e:
-            print(e)
+with open("data\\top-1m.txt", "r", encoding="utf-8") as f:
+    links = f.readlines()
 
-
-links = [
-    "https://github.com/Light-Lens?tab=repositories",
-    "https://www.youtube.com/@OnestateCoding/videos",
-    "https://stackoverflow.com/users/18121288/light-lens",
-    "https://scratch.mit.edu/users/SuperStarIndustries",
-    "https://superstar-games.itch.io",
-    "https://www.instagram.com/srijansrivastava72",
-    "https://uscontent.blogspot.com"
-]
+# links = [
+#     "https://github.com/Light-Lens?tab=repositories",
+#     "https://www.youtube.com/@OnestateCoding/videos",
+#     "https://stackoverflow.com/users/18121288/light-lens",
+#     "https://scratch.mit.edu/users/SuperStarIndustries",
+#     "https://superstar-games.itch.io",
+#     "https://www.instagram.com/srijansrivastava72",
+#     "https://uscontent.blogspot.com"
+# ]
 
 for link in links:
-    main(link, 300)
+    try:
+        main(f"https://{link.strip()}")
+
+    except KeyboardInterrupt:
+        break
 
 print(f"{Fore.YELLOW}{Style.BRIGHT}Closing the crawler..")
 crawl.close()
