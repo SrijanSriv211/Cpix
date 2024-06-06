@@ -6,9 +6,7 @@ import time, os
 
 # Initialize colorama & Color
 init(autoreset = True)
-C = Color()
-C.load_websites("data\\index.json")
-C.preprocess()
+C = Color("data\\index.json", "data\\index_hash_map.json")
 
 app = Flask(__name__, template_folder="src\\web\\templates", static_folder="src\\web\\static")
 user_history_path = "src\\web\\history\\user_history.txt"

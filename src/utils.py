@@ -21,7 +21,7 @@ def lemmatize(word):
     return Lemmatizer.lemmatize(word.lower().strip())
 
 def stop_words(tokens):
-    ignore_words = '''|!()-[]{};:'"\,<>./?@#$%^&*_~+·'''
+    ignore_words = '''|!()-[]{};:'"\\,<>./?@#$%^&*_~+·'''
     filler_words = set(stopwords.words("english"))
     # https://stackoverflow.com/a/58356570/18121288
     emoj = re.compile(
