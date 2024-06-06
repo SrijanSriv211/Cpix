@@ -3,19 +3,24 @@
 ::-webkit-scrollbar
 {
     width: 8px;
-    background: #f5eadc;
+    background: #212121;
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb
 {
-    background: black;
+    background: #383838;
     border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover
+{
+    background: #505050;
 }
 
 ::-webkit-scrollbar-thumb:active
 {
-    background: black;
+    background: #505050;
 }
 
 *
@@ -27,9 +32,9 @@
 
 body
 {
-    color: #1f1f1f;
+    color: white;
     font-family: 'Open Sans', sans-serif;
-    background-color: #faf3ea;
+    background-color: #212121;
 }
 
 nav ul
@@ -47,7 +52,7 @@ nav ul li
 
 nav ul li a
 {
-    color: #a5a5a5;
+    color: white;
     text-decoration: none;
     transition: 0.2s;
 }
@@ -74,7 +79,7 @@ nav ul li a:hover
     left: 50%;
     transform: translate(-50%, -1%);
     font-size: 50px;
-    color: black;
+    color: white;
 }
 
 #title
@@ -84,7 +89,7 @@ nav ul li a:hover
     left: 50%;
     transform: translate(-50%, -35%);
     font-size: 100px;
-    color: black;
+    color: white;
 }
 
 .results-container
@@ -92,8 +97,8 @@ nav ul li a:hover
     border-radius: 5px;
     height: 720px;
     padding: 50px;
-    font-size: 20px;
-    background-color: #faf3ea;
+    font-size: 17px;
+    background-color: #212121;
     overflow-y: auto;
 }
 
@@ -105,29 +110,22 @@ nav ul li a:hover
 #results li
 {
     cursor: pointer;
-    margin-bottom: 10px;
-    padding: 40px;
+    padding: 20px;
     border: none;
     border-radius: 5px;
-    background-color: #faf3ea;
+    background-color: #212121;
     transition: 0.2s;
 }
 
 #results li:hover
 {
-    background-color: #f5eadc;
+    background-color: #171717;
 }
 
 #results li a
 {
-    color: black;
+    color: white;
 	text-decoration: none;
-    transition: 0.2s;
-}
-
-#results li a:hover
-{
-    text-decoration: underline;
     transition: 0.2s;
 }
 
@@ -154,16 +152,16 @@ nav ul li a:hover
 
 #inputbox
 {
-    font-size: 22px;
-    color: black;
-    background-color: white;
+    font-size: 16px;
+    color: white;
+    background-color: #2f2f2f;
     outline: none;
     border: none;
-    border-radius: 10px;
+    border-radius: 50px;
     width: 900px;
-    height: 55px;
-    padding-left: 16px;
-    padding-right: 16px;
+    height: 59px;
+    padding-left: 20px;
+    padding-right: 20px;
     transition: 0.2s;
 }
 
@@ -187,10 +185,10 @@ nav ul li a:hover
     font-size: 20px;
     padding-top: 3px;
     color: white;
-    background-color: #222327;
+    background-color: #2f2f2f;
     border: none;
     outline: none;
-    border-radius: 10px;
+    border-radius: 50px;
     width: 40px;
     height: 40px;
     cursor: pointer;
