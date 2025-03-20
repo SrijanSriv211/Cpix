@@ -11,26 +11,32 @@
 </head>
 <body>
     <script src="../static/script.js"></script>
-    <div class="title-bar">
-        <nav>
-            <ul>
-                <li><a title="Star on Github." href="https://github.com/Light-Lens/Cpix" target="_blank">Github</a></li>
-                <li><a title="Cpix History" href="/history">History</a></li>
-            </ul>
-        </nav>
-        <h3 id="time-taken">{{ time_taken }}</h3>
-        <a title="Cpix Home" href="/"><h3 id="title">Cpix</h3></a>
+    <div class="sidebar">
+        <a class="cpix" title="Cpix Code" href="https://github.com/Light-Lens/Cpix" target="_blank">
+            <img src="../static/img/icon.png" alt="Cpix icon">
+            <h3>Cpix</h3>
+        </a>
+        <hr>
+        <div id="history">
+            {% for history in histories %}
+                <p onclick="PutQueryInSearch(this);">{{ history }}</p>
+            {% endfor %}
+        </div>
     </div>
     <div class="results-container">
-        <ul id="results">
+        <h3 id="time-taken">{{ time_taken }}</h3>
+        <div id="overview" onclick="ToggleOverview(this);" style="width: max-content;">
+            <h3>AI overview</h3>
+            <hr style="display: block;">
+            <div style="display: block;">{{ overview }}</div>
+        </div>
+        <div id="results">
             {% for result in results %}
-                <li id="result-block" onclick="ToggleResultBlock(this);">
-                    <a href="{{ result.URL }}">{{ result.Title }}</a>
-                    <h1 style="display: none;" id="result-desc">{{ result.Description }}</h1>
-                </li>
+                <a class="result-block" href="{{ result.URL }}" target="_blank">{{ result.Title }}</a>
             {% endfor %}
-        </ul>
+        </div>
     </div>
+    <!-- <a title="Cpix Code" href="https://github.com/Light-Lens/Cpix" target="_blank"><h3 id="title">Cpix</h3></a> -->
     <div class="search-container">
         <form method="POST" id="search-bar">
             <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" autofocus required>
@@ -39,6 +45,5 @@
     </div>
     <script> Focus_on_inputbox(); </script>
     <script> SendMessage(); </script>
-    <script> ChangeTitle(); </script>
 </body>
 </html>

@@ -56,47 +56,51 @@ function DeleteHistory()
     });
 }
 
-function ChangeTitle()
+function ToggleOverview(element)
 {
-    const results = document.getElementById("results");
-    const title = document.getElementById("title");
-    const time_taken = document.getElementById("time-taken");
+    var hr = element.querySelector("hr");
+    hr.style.display = (hr.style.display === "none") ? "block" : "none";
 
-    if (results.querySelectorAll("li").length > 0)
-    {
-        title.id = "results-title";
-        time_taken.style.display = "block";
-    }
-
-    else
-    {
-        title.id = "title";
-        time_taken.style.display = "none";
-    }
+    var p = element.querySelector("div");
+    p.style.display = (p.style.display === "none") ? "block" : "none";
 }
 
-function CheckForHistory()
+function PutQueryInSearch(element)
 {
-    const results = document.getElementById("results");
-    const no_search_history_found = document.getElementById("no-search-history-found");
-    const clear_history_form = document.getElementById("clear-history-form");
-
-    if (results.querySelectorAll("li").length > 0)
-    {
-        no_search_history_found.style.display = "none";
-        clear_history_form.style.display = "block";
-    }
-    
-    else
-    {
-        no_search_history_found.style.display = "block";
-        clear_history_form.style.display = "none";
-    }
+    document.getElementById("inputbox").value = element.innerHTML;
 }
 
-function ToggleResultBlock(element)
-{
-    var result_desc = element.querySelector("#result-desc");
-    if (result_desc.innerText.trim() != "")
-        result_desc.style.display = (result_desc.style.display === "none") ? "block" : "none";
+function AdjustGridColumns() {
+    const results_container = document.getElementById("results");
+    const result_blocks = document.querySelectorAll(".result-block");
+
+    if (!result_blocks.length) return; // Avoid errors if no results exist
+
+    let total_length = 0;
+
+    // Calculate total length of all titles
+    result_blocks.forEach(block => {
+        const title = block.textContent.trim();
+        total_length += title.length;
+    });
+
+    // Calculate average length
+    const avg_length = total_length / result_blocks.length;
+
+    // Set columns dynamically based on average title length
+    let columns = 5; // Default
+
+    if (avg_length > 50) {
+        columns = 2; // Fewer columns for long titles
+    } else if (avg_length > 30) {
+        columns = 3;
+    } else if (avg_length > 20) {
+        columns = 4;
+    }
+
+    // Apply new column count
+    results_container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 }
+
+// Run function when the page loads or results update
+window.addEventListener("load", AdjustGridColumns);
