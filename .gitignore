@@ -1,5 +1,7 @@
+.arc/
 .venv/
 __pycache__/
 vendor/
+cache/
 
 user_history.txt
