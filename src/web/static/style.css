@@ -137,10 +137,6 @@ body
     display: flex;
     justify-content: center;
     z-index: 999;
-}
-
-.search-container #search-bar
-{
     display: flex;
     padding: 10px;
 }
@@ -172,7 +168,7 @@ body
     transition: 0.2s;
 }
 
-.inputbtn
+#inputbtn
 {
     position: absolute;
     top: 18px;
@@ -191,7 +187,7 @@ body
     transition: 0.2s;
 }
 
-.inputbtn:hover
+#inputbtn:hover
 {
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 1);
     background-color: #038247;
@@ -241,7 +237,7 @@ body
 
 .results-container #overview:hover
 {
-    transform: scale(1.05);
+    background-color: #212121;
     transition: 0.2s;
 }
 

@@ -27,8 +27,8 @@
         <h3 id="time-taken">{{ time_taken }}</h3>
         <div id="overview" onclick="ToggleOverview(this);" style="width: max-content;">
             <h3>AI overview</h3>
-            <hr style="display: block;">
-            <div style="display: block;">{{ overview }}</div>
+            <hr style="display: none;">
+            <div style="display: none;">{{ overview }}</div>
         </div>
         <div id="results">
             {% for result in results %}
@@ -36,14 +36,93 @@
             {% endfor %}
         </div>
     </div>
-    <!-- <a title="Cpix Code" href="https://github.com/Light-Lens/Cpix" target="_blank"><h3 id="title">Cpix</h3></a> -->
     <div class="search-container">
-        <form method="POST" id="search-bar">
-            <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" autofocus required>
-            <button class="inputbtn"><i class="material-symbols-outlined">search</i></button>
-        </form>
+        <input id="inputbox" type="text" name="query" placeholder="Search on Cpix" autocomplete="off" autofocus required>
+        <button id="inputbtn"><i class="material-symbols-outlined">search</i></button>
     </div>
-    <script> Focus_on_inputbox(); </script>
-    <script> SendMessage(); </script>
+    <script>
+        // Load history when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            LoadHistory();
+            Focus_on_inputbox();
+
+            const inputbox = document.getElementById("inputbox");
+            const inputbtn = document.getElementById("inputbtn");
+
+            // Function to perform search
+            function PerformSearch() {
+                const query = inputbox.value.trim();
+                if (query) {
+                    // Send to backend and get response
+                    fetch('/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ query: query }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        UpdateResults(data);
+                        LoadHistory();
+                    })
+                    .catch(error => { console.error('Error:', error); });
+                }
+            }
+
+            // Event listeners for search
+            inputbtn.addEventListener('click', PerformSearch);
+            inputbox.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter')
+                {
+                    PerformSearch();
+                }
+            });
+        });
+
+        // Function to load history
+        function LoadHistory() {
+            fetch('/')
+                .then(response => response.json())
+                .then(data => {
+                    const historyContainer = document.getElementById("history");
+                    historyContainer.innerHTML = '';
+
+                    data.history.forEach(item => {
+                        const p = document.createElement('p');
+                        p.textContent = item;
+                        p.onclick = function() { PutQueryInSearch(this); };
+                        historyContainer.appendChild(p);
+                    });
+                })
+                .catch(error => console.error('Error loading history:', error));
+        }
+
+        // Function to update search results
+        function UpdateResults(data) {
+            // Update time taken
+            document.getElementById("time-taken").textContent = data.time_taken;
+
+            // Update overview
+            const overviewDiv = document.querySelector("#overview div");
+            overviewDiv.textContent = data.overview;
+
+            // Update results
+            const resultsContainer = document.getElementById("results");
+            resultsContainer.innerHTML = '';
+
+            data.results.forEach(result => {
+                const a = document.createElement('a');
+                a.className = 'result-block';
+                a.href = result.URL;
+                a.target = '_blank';
+                a.textContent = result.Title;
+                resultsContainer.appendChild(a);
+            });
+
+            // Adjust grid columns based on results
+            AdjustGridColumns();
+        }
+    </script>
 </body>
 </html>

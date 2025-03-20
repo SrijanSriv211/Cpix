@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from colorama import Fore, Style, init
 from src.color.color import Color
 from src.llm import GROQ
@@ -29,7 +29,8 @@ def index_get():
 @app.route("/", methods=["POST"])
 def search():
     # Get the search query
-    text = request.form["query"]
+    data = request.json
+    text = data["query"]
 
     # Save the search query in the user history
     print(f"{Fore.YELLOW}{Style.BRIGHT}Saving History")
@@ -54,15 +55,12 @@ def search():
     print(f"{Fore.WHITE}{Style.BRIGHT}{time_taken}")
 
     # Render the results.
-    return render_template("index.html", results=results, time_taken=time_taken, histories=history, overview=overview)
-
-@app.route("/history", methods=["POST"])
-def delete_history():
-    with open(user_history_path, "w", encoding="utf-8") as f:
-        f.write("")
-
-    print("History deleted")
-    return render_template("history.html")
+    return jsonify({
+        "results": results,
+        "time_taken": time_taken,
+        "histories":history,
+        "overview":overview
+    })
 
 if __name__ == "__main__":
     app.run(port=8000)

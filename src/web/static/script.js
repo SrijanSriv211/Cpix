@@ -68,6 +68,7 @@ function ToggleOverview(element)
 function PutQueryInSearch(element)
 {
     document.getElementById("inputbox").value = element.innerHTML;
+    document.getElementById("inputbox").focus();
 }
 
 function AdjustGridColumns() {
@@ -101,6 +102,3 @@ function AdjustGridColumns() {
     // Apply new column count
     results_container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 }
-
-// Run function when the page loads or results update
-window.addEventListener("load", AdjustGridColumns);
