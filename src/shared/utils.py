@@ -9,6 +9,9 @@ def flatten(xs):
         else:
             yield x
 
+def similarity(x, y, precision=4):
+    return round(1 - abs(x - y) / max(y, x), precision)
+
 def calc_total_time(seconds):
     # Separate the integer part (for hours, minutes, and seconds) from the fractional part (for milliseconds)
     sec_int, millis = divmod(seconds, 1)
