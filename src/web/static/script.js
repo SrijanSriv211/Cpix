@@ -94,6 +94,7 @@ function PerformSearch()
     .then(response => response.json())
     .then(data => {
         document.getElementById("title").style.display = "none";
+        inputbox.value = "";
         UpdateResults(data);
 
         // Update history only if it exists in the response
