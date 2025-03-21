@@ -135,10 +135,9 @@ class Encoder:
 	def _encode_chunk(self, text_bytes, inverse_vocab):
 		ids = list(text_bytes)
 		if len(ids) < 2:
-			return [ids] # return single-step encoding
+			return ids # return single-step encoding
 
 		first, last = 0, 2
-		encoding_stages = [ids[:]] # store each stage of encoding
 
 		while first <= len(ids):
 			if len(ids[first:last]) < 2:
@@ -149,14 +148,13 @@ class Encoder:
 
 			if self.vocab[i0] + self.vocab[i1] in inverse_vocab.keys():
 				ids[first:last] = [inverse_vocab[self.vocab[i0] + self.vocab[i1]]]
-				encoding_stages.append(ids[:])  # capture intermediate encoding
 				first, last = 0, 2
 
 			else:
 				first += 1
 				last += 1
 
-		return encoding_stages
+		return ids
 
 	def encode_ordinary(self, text):
 		"""Encoding that ignores any special tokens."""
@@ -164,15 +162,15 @@ class Encoder:
 		text_chunks = regex.findall(self.compiled_pattern, text)
 
 		# all chunks of text are encoded separately, then results are joined
-		encoding_process = [] # store all intermediate steps
+		ids = []
 
 		inverse_vocab = {v: k for k, v in self.vocab.items()}
 		for chunk in text_chunks:
 			chunk_bytes = chunk.encode("utf-8") # raw bytes
-			chunk_stages = self._encode_chunk(chunk_bytes, inverse_vocab)
-			encoding_process.append(chunk_stages)
+			chunk_ids = self._encode_chunk(chunk_bytes, inverse_vocab)
+			ids.extend(chunk_ids)
 
-		return encoding_process
+		return ids
 
 	def encode(self, text):
 		return self.encode_ordinary(text)
