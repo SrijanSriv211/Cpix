@@ -1,5 +1,10 @@
-from src.utils import *
+from src.shared.nltk_utils import clean_sentence
+from src.shared.utils import flatten
+from src.llm.encoder import Encoder
 import json
+
+enc = Encoder()
+enc.load("models\\enc.bin")
 
 class Color:
     def __init__(self, index_path, hash_map_path):
@@ -13,18 +18,11 @@ class Color:
             self.hash_map = json.load(f)
 
     def search(self, query):
-        clean_query = clean_sentence(query)
-        keywords = clean_query.split()
+        cleaned_sentence = clean_sentence(query.lower())
+        ids = list(set(flatten(enc.encode(cleaned_sentence))))
+        sites_idx = set()
+        for id in ids:
+            sites_idx.update(self.hash_map[str(id)])
 
-        index_of_websites = set()
-        for keyword in keywords:
-            index_of_websites.update(self.hash_map[keyword])
-
-        list_of_websites = []
-        for i in list(set(index_of_websites)):
-            if self.index[i] in list_of_websites:
-                continue
-
-            list_of_websites.append(self.index[i])
-
-        return list_of_websites
+        # return [self.index[i] for i in list(set(sites_idx))]
+        return [self.index[i] for i in sites_idx]
