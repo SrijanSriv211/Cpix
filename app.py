@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from colorama import Fore, Style, init
 from src.color.color import Color
-from src.llm import GROQ
+from src.llm.llm import GROQ
 from pprint import pprint
 import time, os
 
