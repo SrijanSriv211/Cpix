@@ -1,8 +1,7 @@
 from src.shared.nltk_utils import clean_sentence
 from src.shared.utils import flatten, similarity
 from src.llm.encoder import Encoder
-import regex as re
-import json
+import pickle, regex as re
 
 enc = Encoder()
 enc.load("models\\enc.bin")
@@ -12,11 +11,11 @@ class Color:
         self.index = []
         self.hash_map = {}
 
-        with open(index_path, "r", encoding="utf-8") as f:
-            self.index = json.load(f)
+        with open(index_path, "rb") as f:
+            self.index = pickle.load(f)
 
-        with open(hash_map_path, "r", encoding="utf-8") as f:
-            self.hash_map = json.load(f)
+        with open(hash_map_path, "rb") as f:
+            self.hash_map = pickle.load(f)
 
     def search(self, query):
         ids = list(set(flatten(enc.encode(query.lower()))))

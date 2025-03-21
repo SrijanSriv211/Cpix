@@ -1,13 +1,10 @@
 from flask import Flask, render_template, request, jsonify
-from colorama import Fore, Style, init
 from src.color.color import Color
 from src.llm.llm import GROQ
-from pprint import pprint
 import time, os
 
-# Initialize
-init(autoreset = True)
-C = Color("data\\index.json", "data\\index_hash_map.json")
+# initialize
+C = Color("data\\index.bin", "data\\index_hash_map.bin")
 llm = GROQ("cache\\GroqAPI.txt")
 
 app = Flask(__name__, template_folder="src\\web\\templates", static_folder="src\\web\\static")

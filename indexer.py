@@ -1,7 +1,7 @@
 from src.shared.utils import flatten
 from src.llm.encoder import Encoder
 from collections import defaultdict
-import json
+import pickle, json
 
 enc = Encoder()
 enc.load("models\\enc.bin")
@@ -33,7 +33,7 @@ def inverse_indexing(data):
     return dict(hash_map)
 
 def save_hash_map(hash_map, path):
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(hash_map, f, ensure_ascii=False, indent=4)
+    with open(path, "wb") as f:
+        pickle.dump(hash_map, f)
 
 save_hash_map(inverse_indexing(load_crawled_websites("data\\index.json")), "data\\index_hash_map.json")
