@@ -135,9 +135,10 @@ class Encoder:
 	def _encode_chunk(self, text_bytes, inverse_vocab):
 		ids = list(text_bytes)
 		if len(ids) < 2:
-			return ids # return single-step encoding
+			return [ids] # return single-step encoding
 
 		first, last = 0, 2
+		encoding_stages = [ids[:]] # store each stage of encoding
 
 		while first <= len(ids):
 			if len(ids[first:last]) < 2:
@@ -148,6 +149,7 @@ class Encoder:
 
 			if self.vocab[i0] + self.vocab[i1] in inverse_vocab.keys():
 				ids[first:last] = [inverse_vocab[self.vocab[i0] + self.vocab[i1]]]
+				encoding_stages.append(ids[:])  # capture intermediate encoding
 				first, last = 0, 2
 
 			else:
@@ -168,7 +170,7 @@ class Encoder:
 		for chunk in text_chunks:
 			chunk_bytes = chunk.encode("utf-8") # raw bytes
 			chunk_ids = self._encode_chunk(chunk_bytes, inverse_vocab)
-			ids.extend(chunk_ids)
+			ids.append(chunk_ids)
 
 		return ids
 
