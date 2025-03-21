@@ -1,26 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
 
-::-webkit-scrollbar
+:root
 {
-    width: 8px;
-    background: #212121;
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb
-{
-    background: #383838;
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover
-{
-    background: #505050;
-}
-
-::-webkit-scrollbar-thumb:active
-{
-    background: #505050;
+    color-scheme: dark;
 }
 
 *
@@ -35,19 +17,19 @@ body
     display: flex;
     color: white;
     font-family: 'Open Sans', sans-serif;
-    background-color: #212121;
+    background-color: #050505;
 }
 
 .sidebar
 {
     padding: 20px;
-    background-color: #171717;
+    background-color: #000;
     width: 220px;
     min-height: 100vh;
     overflow: hidden;
 }
 
-.sidebar .cpix
+.sidebar .github
 {
     border-radius: 10px;
     padding: 7px;
@@ -55,42 +37,69 @@ body
     color: white;
     align-items: center;
     text-decoration: none;
+    margin-bottom: 5px;
     transition: 0.2s;
 }
 
-
-.sidebar .cpix h3
+.sidebar .github h3
 {
     font-size: 16px;
 }
 
-.sidebar .cpix img
+.sidebar .github i
 {
     margin-right: 10px;
-    width: 30px;
-    height: 30px;
 }
 
-.sidebar .cpix:hover
+.sidebar .github:hover
 {
-    background-color: #212121;
+    transform: scale(1.02);
+    background-color: #050505;
     transition: 0.2s;
 }
 
-.sidebar .cpix:active
+.sidebar .github:active
 {
-    transform: scale(0.95);
-    background-color: #202020;
+    transform: scale(0.98);
+    background-color: #0a0a0a;
     transition: 0.2s;
 }
 
-.sidebar hr
+.sidebar .clear-history
 {
+    width: 100%;
+    border-radius: 10px;
     border: none;
-    height: 2px;
-    background-color: #1f1f1f;
-    margin-top: 25px;
-    margin-bottom: 25px;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 7px;
+    display: flex;
+    color: white;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #000;
+    transition: 0.2s;
+}
+
+.sidebar .clear-history i
+{
+    margin-right: 10px;
+}
+
+.sidebar .clear-history:hover
+{
+    transform: scale(1.02);
+    background-color: #050505;
+    transition: 0.2s;
+}
+
+.sidebar .clear-history:active
+{
+    transform: scale(0.98);
+    background-color: #0a0a0a;
+    transition: 0.2s;
 }
 
 .sidebar #history
@@ -98,11 +107,12 @@ body
     flex: 1;
     overflow-y: auto;
     max-height: calc(95vh - 95px);
+    margin-top: 25px;
 }
 
 .sidebar #history p
 {
-    color: #f4f4f4;
+    color: #FFF6E0;
     padding: 10px 12px;
     list-style: none;
     border-radius: 10px;
@@ -117,14 +127,15 @@ body
 
 .sidebar #history p:hover
 {
-    background-color: #212121;
+    transform: scale(1.02);
+    background-color: #050505;
     transition: 0.2s;
 }
 
 .sidebar #history p:active
 {
-    transform: scale(0.95);
-    background-color: #202020;
+    transform: scale(0.98);
+    background-color: #0a0a0a;
     transition: 0.2s;
 }
 
@@ -144,8 +155,8 @@ body
 #inputbox
 {
     font-size: 16px;
-    color: white;
-    background-color: #2f2f2f;
+    color: #FFF6E0;
+    background-color: #0c0c0c;
     outline: none;
     border: none;
     border-radius: 10px;
@@ -175,8 +186,8 @@ body
     right: 18px;
     font-size: 20px;
     padding-top: 3px;
-    color: white;
-    background-color: #2f2f2f;
+    color: #FFF6E0;
+    background-color: #0c0c0c;
     border: none;
     outline: none;
     border-radius: 10px;
@@ -190,7 +201,7 @@ body
 #inputbtn:hover
 {
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 1);
-    background-color: #038247;
+    background-color: #050505;
     transition: 0.2s;
 }
 
@@ -203,6 +214,16 @@ body
     padding-left: 20px;
 }
 
+.results-container #title
+{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    cursor: default;
+    font-size: 150px;
+}
+
 .results-container #time-taken
 {
     position: absolute;
@@ -211,11 +232,12 @@ body
     transform: translate(-2%, -2%);
     font-size: 16px;
     z-index: 999;
+    cursor: default;
 }
 
 .results-container #overview
 {
-    background-color: #171717;
+    background-color: #000;
     width: max-content;
     max-height: 700px;
     padding: 20px;
@@ -237,23 +259,26 @@ body
 
 .results-container #overview:hover
 {
-    background-color: #212121;
+    background-color: #0a0a0a;
     transition: 0.2s;
 }
 
 .results-container #overview:active
 {
     transform: scale(0.95);
-    background-color: #171717;
+    background-color: #0c0c0c;
     transition: 0.2s;
 }
 
 .results-container #results
 {
+    padding-left: 20px;
+    padding-right: 20px;
     flex: 1;
     overflow-y: auto;
     max-height: calc(89vh - 89px);
     display: grid;
+    gap: 10px;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: masonry;
 }
@@ -268,21 +293,22 @@ body
     display: block;
     cursor: pointer;
     font-size: 16px;
-    color: #f4f4f4;
+    color: #FFF6E0;
     text-decoration: none;
-    transition: 0.2s;
-}
-
-.results-container #results .result-block:active
-{
-    transform: scale(0.95);
-    background-color: #171717;
     transition: 0.2s;
 }
 
 .results-container #results .result-block:hover
 {
-    background-color: #171717;
+    transform: scale(1.02);
+    background-color: #0a0a0a;
     text-decoration: underline;
+    transition: 0.2s;
+}
+
+.results-container #results .result-block:active
+{
+    transform: scale(0.98);
+    background-color: #0c0c0c;
     transition: 0.2s;
 }

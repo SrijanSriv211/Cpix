@@ -12,18 +12,20 @@
 <body>
     <script src="../static/script.js"></script>
     <div class="sidebar">
-        <a class="cpix" title="Cpix Code" href="https://github.com/Light-Lens/Cpix" target="_blank">
-            <img src="../static/img/icon.png" alt="Cpix icon">
-            <h3>Cpix</h3>
+        <button title="Take me Home" class="clear-history" id="home"><i class="material-symbols-outlined">home</i>Home</button>
+        <a class="github" title="Cpix Code" href="https://github.com/Light-Lens/Cpix" target="_blank">
+            <i class="material-symbols-outlined">source</i>
+            <h3>GitHub</h3>
         </a>
-        <hr>
+        <button title="Clear History" class="clear-history" id="clear-history"><i class="material-symbols-outlined">delete</i>History</button>
         <div id="history">
-            {% for history in histories %}
-                <p onclick="PutQueryInSearch(this);">{{ history }}</p>
+            {% for h in history %}
+                <p onclick="PutQueryInSearch(this);">{{ h }}</p>
             {% endfor %}
         </div>
     </div>
     <div class="results-container">
+        <h1 id="title">Cpix</h1>
         <h3 id="time-taken">{{ time_taken }}</h3>
         <div id="overview" onclick="ToggleOverview(this);" style="width: max-content;">
             <h3>AI overview</h3>
@@ -43,86 +45,29 @@
     <script>
         // Load history when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            LoadHistory();
             Focus_on_inputbox();
 
             const inputbox = document.getElementById("inputbox");
             const inputbtn = document.getElementById("inputbtn");
+            const del_history_btn = document.getElementById("clear-history");
+            const home = document.getElementById("home");
 
-            // Function to perform search
-            function PerformSearch() {
-                const query = inputbox.value.trim();
-                if (query) {
-                    // Send to backend and get response
-                    fetch('/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ query: query }),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        UpdateResults(data);
-                        LoadHistory();
-                    })
-                    .catch(error => { console.error('Error:', error); });
-                }
-            }
+            // Event listeners for home
+            home.addEventListener("click", function() { location.reload(); });
+
+            // Event listeners for clearning history
+            del_history_btn.addEventListener("click", DeleteHistory);
 
             // Event listeners for search
-            inputbtn.addEventListener('click', PerformSearch);
-            inputbox.addEventListener('keypress', function(event) {
-                if (event.key === 'Enter')
+            inputbtn.addEventListener("click", PerformSearch);
+            inputbox.addEventListener("keypress", function(event) {
+                if (event.key === "Enter")
                 {
                     PerformSearch();
+                    Focus_on_inputbox();
                 }
             });
         });
-
-        // Function to load history
-        function LoadHistory() {
-            fetch('/')
-                .then(response => response.json())
-                .then(data => {
-                    const historyContainer = document.getElementById("history");
-                    historyContainer.innerHTML = '';
-
-                    data.history.forEach(item => {
-                        const p = document.createElement('p');
-                        p.textContent = item;
-                        p.onclick = function() { PutQueryInSearch(this); };
-                        historyContainer.appendChild(p);
-                    });
-                })
-                .catch(error => console.error('Error loading history:', error));
-        }
-
-        // Function to update search results
-        function UpdateResults(data) {
-            // Update time taken
-            document.getElementById("time-taken").textContent = data.time_taken;
-
-            // Update overview
-            const overviewDiv = document.querySelector("#overview div");
-            overviewDiv.textContent = data.overview;
-
-            // Update results
-            const resultsContainer = document.getElementById("results");
-            resultsContainer.innerHTML = '';
-
-            data.results.forEach(result => {
-                const a = document.createElement('a');
-                a.className = 'result-block';
-                a.href = result.URL;
-                a.target = '_blank';
-                a.textContent = result.Title;
-                resultsContainer.appendChild(a);
-            });
-
-            // Adjust grid columns based on results
-            AdjustGridColumns();
-        }
     </script>
 </body>
 </html>

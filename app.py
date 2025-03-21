@@ -24,13 +24,26 @@ else:
 
 @app.get("/")
 def index_get():
-    return render_template("index.html", histories=history, overview="Hello! How can I help you today?")
+    return render_template("index.html", history=history, overview="Hello! How can I help you today?")
 
 @app.route("/", methods=["POST"])
 def search():
     # Get the search query
     data = request.json
     text = data["query"]
+
+    print(text)
+
+    if text == "<|del-history|>":
+        print(f"{Fore.YELLOW}{Style.BRIGHT}Clearing History")
+
+        history.clear()
+        with open(user_history_path, "w", encoding="utf-8") as f:
+            f.write("")
+
+        return jsonify({
+            "history": []
+        })
 
     # Save the search query in the user history
     print(f"{Fore.YELLOW}{Style.BRIGHT}Saving History")
@@ -58,8 +71,8 @@ def search():
     return jsonify({
         "results": results,
         "time_taken": time_taken,
-        "histories":history,
-        "overview":overview
+        "history": history,
+        "overview": overview
     })
 
 if __name__ == "__main__":
