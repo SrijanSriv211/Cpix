@@ -28,6 +28,12 @@ function ToggleOverview(element)
     p.style.display = (p.style.display === "none") ? "block" : "none";
 }
 
+function ToggleResults()
+{
+    var r = document.getElementById("results");
+    r.style.display = (r.style.display === "none") ? "grid" : "none";
+}
+
 function PutQueryInSearch(element)
 {
     document.getElementById("inputbox").value = element.innerHTML;
@@ -72,41 +78,43 @@ function AdjustGridColumns()
 // Function to perform search
 function PerformSearch()
 {
+    const inputbox = document.getElementById("inputbox");
     const query = inputbox.value.trim();
-    if (query)
-    {
-        // Send to backend and get response
-        fetch('/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query: query }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("title").style.display = "none";
-            UpdateResults(data);
+    if (!query)
+        return;
 
-            // Update history only if it exists in the response
-            if (data.history && Array.isArray(data.history))
-            {
-                const historyContainer = document.getElementById("history");
-                historyContainer.innerHTML = '';
-                
-                data.history.forEach(item => {
-                    const p = document.createElement('p');
-                    p.textContent = item;
-                    p.onclick = function() { PutQueryInSearch(this); };
-                    historyContainer.appendChild(p);
-                });
-            }
+    // Send to backend and get response
+    fetch('/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: query }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("title").style.display = "none";
+        UpdateResults(data);
 
-            else
-                console.error('History data is missing or not an array:', data);
-        })
-        .catch(error => { console.error('Error:', error); });
-    }
+        // Update history only if it exists in the response
+        if (data.history && Array.isArray(data.history))
+        {
+            const historyContainer = document.getElementById("history");
+            historyContainer.innerHTML = '';
+            
+            data.history.forEach(item => {
+                const p = document.createElement('p');
+                p.textContent = item;
+                p.onclick = function() { PutQueryInSearch(this); };
+                historyContainer.appendChild(p);
+            });
+        }
+
+        else
+            console.error('History data is missing or not an array:', data);
+    })
+    .catch(error => { console.error('Error:', error); });
+    return query;
 }
 
 // Function to update search results
@@ -114,10 +122,6 @@ function UpdateResults(data)
 {
     // Update time taken
     document.getElementById("time-taken").textContent = data.time_taken;
-
-    // Update overview
-    const overviewDiv = document.querySelector("#overview div");
-    overviewDiv.textContent = data.overview;
 
     // Update results
     const resultsContainer = document.getElementById("results");
@@ -151,6 +155,27 @@ function DeleteHistory()
         // Clear history in the UI
         document.getElementById("history").innerHTML = '';
         console.log('History cleared successfully');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function GetOverview(input)
+{
+    // Send message to get AI overview
+    fetch('/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: "<|overview|>" + input }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Update overview
+        const overviewDiv = document.querySelector("#overview div");
+        overviewDiv.textContent = data.overview;
     })
     .catch(error => {
         console.error('Error:', error);

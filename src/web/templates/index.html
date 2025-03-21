@@ -26,11 +26,13 @@
     </div>
     <div class="results-container">
         <h1 id="title">Cpix</h1>
-        <h3 id="time-taken">{{ time_taken }}</h3>
         <div id="overview" onclick="ToggleOverview(this);" style="width: max-content;">
             <h3>AI overview</h3>
             <hr style="display: none;">
             <div style="display: none;">{{ overview }}</div>
+        </div>
+        <div id="time-taken-container" onclick="ToggleResults()">
+            <h3 id="time-taken">{{ time_taken }}</h3>
         </div>
         <div id="results">
             {% for result in results %}
@@ -45,12 +47,11 @@
     <script>
         // Load history when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            Focus_on_inputbox();
-
             const inputbox = document.getElementById("inputbox");
             const inputbtn = document.getElementById("inputbtn");
             const del_history_btn = document.getElementById("clear-history");
             const home = document.getElementById("home");
+            Focus_on_inputbox();
 
             // Event listeners for home
             home.addEventListener("click", function() { location.reload(); });
@@ -63,8 +64,9 @@
             inputbox.addEventListener("keypress", function(event) {
                 if (event.key === "Enter")
                 {
-                    PerformSearch();
                     Focus_on_inputbox();
+                    const query = PerformSearch();
+                    GetOverview(query);
                 }
             });
         });

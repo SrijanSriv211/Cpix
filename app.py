@@ -32,8 +32,6 @@ def search():
     data = request.json
     text = data["query"]
 
-    print(text)
-
     if text == "<|del-history|>":
         print(f"{Fore.YELLOW}{Style.BRIGHT}Clearing History")
 
@@ -43,6 +41,11 @@ def search():
 
         return jsonify({
             "history": []
+        })
+    
+    elif text.startswith("<|overview|>"):
+        return jsonify({
+            "overview": llm.generate(text[12:])
         })
 
     # Save the search query in the user history
@@ -54,25 +57,16 @@ def search():
 
     # Use my Color search algo to search.
     start_time = time.time()
-    overview = llm.generate(text)
     results = C.search(text)
     end_time = time.time()
 
     time_taken = f"About {len(results)} results ({(end_time - start_time):.2f} seconds)"
 
-    print(f"{Fore.YELLOW}{Style.BRIGHT}SEARCH QUERY:", text)
-    print(f"{Fore.YELLOW}{Style.BRIGHT}RESULTS:")
-    pprint(results)
-    print(f"{Fore.YELLOW}{Style.BRIGHT}AI OVERVIEW:")
-    print(overview)
-    print(f"{Fore.WHITE}{Style.BRIGHT}{time_taken}")
-
     # Render the results.
     return jsonify({
         "results": results,
         "time_taken": time_taken,
-        "history": history,
-        "overview": overview
+        "history": history
     })
 
 if __name__ == "__main__":
