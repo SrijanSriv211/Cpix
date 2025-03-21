@@ -28,13 +28,11 @@ def index_get():
 
 @app.route("/", methods=["POST"])
 def search():
-    # Get the search query
+    # get the search query
     data = request.json
     text = data["query"]
 
     if text == "<|del-history|>":
-        print(f"{Fore.YELLOW}{Style.BRIGHT}Clearing History")
-
         history.clear()
         with open(user_history_path, "w", encoding="utf-8") as f:
             f.write("")
@@ -48,21 +46,20 @@ def search():
             "overview": llm.generate(text[12:])
         })
 
-    # Save the search query in the user history
-    print(f"{Fore.YELLOW}{Style.BRIGHT}Saving History")
+    # save the search query in the user history
     if text not in history:
         history.insert(0, text)
         with open(user_history_path, "w", encoding="utf-8") as f:
             f.write("\n".join(history) + "\n")
 
-    # Use my Color search algo to search.
+    # use my Color search algo to search.
     start_time = time.time()
     results = C.search(text)
     end_time = time.time()
 
     time_taken = f"About {len(results)} results ({(end_time - start_time):.2f} seconds)"
 
-    # Render the results.
+    # render the results.
     return jsonify({
         "results": results,
         "time_taken": time_taken,
