@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, jsonify
+from colorama import Fore, Style, init
 from src.color.color import Color
 from src.llm.llm import GROQ
+from pprint import pprint
 import webbrowser, time, os
 
 # initialize
+init(autoreset = True)
 C = Color("data\\index.bin", "data\\index_hash_map.bin")
 llm = GROQ("cache\\GroqAPI.txt")
 
@@ -42,6 +45,7 @@ def search():
 
     # special tokens
     if text == "<|del-history|>":
+        print(f"{Fore.YELLOW}{Style.BRIGHT}Deleting History")
         history.clear()
         with open(history_path, "w", encoding="utf-8") as f:
             f.write("")
@@ -51,16 +55,21 @@ def search():
         })
 
     elif text.startswith("<|overview|>"):
+        overview = llm.generate(text[12:])
+        print(f"{Fore.YELLOW}{Style.BRIGHT}Overview")
+        print(overview)
         return jsonify({
-            "overview": llm.generate(text[12:])
+            "overview": overview
         })
 
     elif any(text.lower().startswith(i) for i in bangs.keys()):
         bang = text[:text.find("?") + 1].lower()
         text = text[text.find("?") + 1:].strip()
+        print(f"{Fore.YELLOW}{Style.BRIGHT}Bang:", bang)
         webbrowser.open(bangs[bang] + text.replace(" ", "+"))
 
     # save the search query in the user history
+    print(f"{Fore.YELLOW}{Style.BRIGHT}Saving History")
     if text.lower() not in [i.lower() for i in history]:
         history.insert(0, text)
 
@@ -73,6 +82,11 @@ def search():
     end_time = time.time()
 
     time_taken = f"About {len(results)} results ({(end_time - start_time):.2f} seconds)"
+
+    print(f"{Fore.YELLOW}{Style.BRIGHT}SEARCH QUERY:", text)
+    print(f"{Fore.YELLOW}{Style.BRIGHT}RESULTS:")
+    pprint(results)
+    print(f"{Fore.WHITE}{Style.BRIGHT}{time_taken}")
 
     # render the results.
     return jsonify({
