@@ -10,11 +10,16 @@ function CheckForKeyboardShortcuts()
 
         else if (isFocused && e.key === "Escape")
             inputbox.blur();
+    });
 
+    document.addEventListener("keydown", function (e)
+    {
         // expand or collapse sidebar with "Alt + `"
-        const sidebar = document.getElementById("sidebar");
         if (e.altKey && e.key === "`")
+        {
+            const sidebar = document.getElementById("sidebar");
             sidebar.style.display = (sidebar.style.display === "none") ? "block" : "none";
+        }
     });
 }
 
