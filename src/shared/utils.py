@@ -1,4 +1,5 @@
 from collections.abc import Iterable
+import numpy
 
 # https://stackoverflow.com/a/2158532/18121288
 def flatten(xs):
@@ -30,3 +31,6 @@ def calc_total_time(seconds):
     t = list(filter(None, t))
 
     return ", ".join(t) if t else "0 seconds"
+
+def tanh(x):
+    return numpy.tanh(x)
