@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from src.color.color import Color
 from src.llm.llm import GROQ
-import time, os
+import webbrowser, time, os
 
 # initialize
 C = Color("data\\index.bin", "data\\index_hash_map.bin")
@@ -19,6 +19,17 @@ else:
     with open(user_history_path, "r", encoding="utf-8") as f:
         history = [i.strip() for i in f.readlines()]
 
+bangs = {
+    "g?": "https://www.google.com/search?q=",
+    "yt?": "https://www.youtube.com/results?search_query=",
+    "eb?": "https://www.britannica.com/search?query=",
+    "git?": "https://github.com/search?q=",
+    "bing?": "https://www.bing.com/search?q=",
+    "ddg?": "https://duckduckgo.com/?q=",
+    "gs?": "https://scholar.google.com/scholar?q=",
+    "wiki?": "https://en.wikipedia.org/w/index.php?search="
+}
+
 @app.get("/")
 def index_get():
     return render_template("index.html", history=history, overview="Hello! How can I help you today?")
@@ -27,8 +38,9 @@ def index_get():
 def search():
     # get the search query
     data = request.json
-    text = data["query"]
+    text: str = data["query"].strip()
 
+    # special tokens
     if text == "<|del-history|>":
         history.clear()
         with open(user_history_path, "w", encoding="utf-8") as f:
@@ -37,15 +49,21 @@ def search():
         return jsonify({
             "history": []
         })
-    
+
     elif text.startswith("<|overview|>"):
         return jsonify({
             "overview": llm.generate(text[12:])
         })
 
+    elif any(text.lower().startswith(i) for i in bangs.keys()):
+        bang = text[:text.find("?") + 1].lower()
+        text = text[text.find("?") + 1:].strip()
+        webbrowser.open(bangs[bang] + text.replace(" ", "+"))
+
     # save the search query in the user history
-    if text not in history:
+    if text.lower() not in [i.lower() for i in history]:
         history.insert(0, text)
+
         with open(user_history_path, "w", encoding="utf-8") as f:
             f.write("\n".join(history) + "\n")
 
