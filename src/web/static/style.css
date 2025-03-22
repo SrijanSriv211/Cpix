@@ -5,8 +5,8 @@
     color-scheme: dark;
     --black: #000;
     --light-black: #090909;
-    --lighter-black: #0c0c0c;
-    --even-lighter-black: #0f0f0f;
+    --lighter-black: #0f0f0f;
+    --even-lighter-black: #0c0c0c;
 }
 
 *
@@ -24,7 +24,7 @@ body
     background-color: var(--light-black);
 }
 
-.sidebar
+#sidebar
 {
     padding: 20px;
     background-color: var(--black);
@@ -33,7 +33,7 @@ body
     overflow: hidden;
 }
 
-.sidebar .menu
+#sidebar .menu
 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -41,7 +41,7 @@ body
     margin-bottom: 25px;
 }
 
-.sidebar .menu .github
+#sidebar .menu .github
 {
     border-radius: 10px;
     padding: 7px;
@@ -53,21 +53,21 @@ body
     transition: 0.2s;
 }
 
-.sidebar .menu .github:hover
+#sidebar .menu .github:hover
 {
     transform: scale(1.02);
     background-color: var(--light-black);
     transition: 0.2s;
 }
 
-.sidebar .menu .github:active
+#sidebar .menu .github:active
 {
     transform: scale(0.98);
     background-color: var(--lighter-black);
     transition: 0.2s;
 }
 
-.sidebar .menu .clear-history
+#sidebar .menu .clear-history
 {
     width: 100%;
     border-radius: 10px;
@@ -86,28 +86,28 @@ body
     transition: 0.2s;
 }
 
-.sidebar .menu .clear-history:hover
+#sidebar .menu .clear-history:hover
 {
     transform: scale(1.02);
     background-color: var(--light-black);
     transition: 0.2s;
 }
 
-.sidebar .menu .clear-history:active
+#sidebar .menu .clear-history:active
 {
     transform: scale(0.98);
     background-color: var(--lighter-black);
     transition: 0.2s;
 }
 
-.sidebar #history
+#sidebar #history
 {
     flex: 1;
     overflow-y: auto;
     max-height: calc(100vh - 100px);
 }
 
-.sidebar #history p
+#sidebar #history p
 {
     color: #f9f9f9;
     padding: 10px 12px;
@@ -123,14 +123,14 @@ body
     transition: 0.2s;
 }
 
-.sidebar #history p:hover
+#sidebar #history p:hover
 {
     transform: scale(1.02);
     background-color: var(--light-black);
     transition: 0.2s;
 }
 
-.sidebar #history p:active
+#sidebar #history p:active
 {
     transform: scale(0.98);
     background-color: var(--lighter-black);
@@ -154,7 +154,7 @@ body
 {
     font-size: 16px;
     color: #f9f9f9;
-    background-color: var(--even-lighter-black);
+    background-color: var(--black);
     outline: none;
     border: none;
     border-radius: 10px;
@@ -185,7 +185,7 @@ body
     font-size: 20px;
     padding-top: 3px;
     color: #f9f9f9;
-    background-color: var(--even-lighter-black);
+    background-color: var(--black);
     border: none;
     outline: none;
     border-radius: 10px;
@@ -197,6 +197,13 @@ body
 }
 
 #inputbtn:hover
+{
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 1);
+    background-color: var(--lighter-black);
+    transition: 0.2s;
+}
+
+#inputbtn:active
 {
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 1);
     background-color: var(--light-black);
@@ -248,7 +255,6 @@ body
 {
     background-color: var(--black);
     max-height: 800px;
-    max-width: 82.5vw;
     padding: 20px;
     border-radius: 10px;
     cursor: default;
@@ -258,7 +264,6 @@ body
 
 .results-container #overview div
 {
-    max-width: 99rem;
     white-space: pre-wrap;
     font-size: 15px;
     margin-top: 15px;

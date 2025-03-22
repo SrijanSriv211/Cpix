@@ -1,20 +1,20 @@
-function Focus_on_inputbox()
+function CheckForKeyboardShortcuts()
 {
-    var inputbox = document.getElementById("inputbox");
     document.addEventListener("keyup", function (e)
     {
+        // focus on search box if `/`
+        const inputbox = document.getElementById("inputbox");
         let isFocused = (document.activeElement === inputbox);
-        if (!isFocused)
-        {
-            if (e.key === "/")
-                inputbox.focus();
-        }
+        if (!isFocused && e.key === "/")
+            inputbox.focus();
 
-        else if (isFocused)
-        {
-            if (e.key === "Escape")
-                inputbox.blur();
-        }
+        else if (isFocused && e.key === "Escape")
+            inputbox.blur();
+
+        // expand or collapse sidebar with "Alt + `"
+        const sidebar = document.getElementById("sidebar");
+        if (e.altKey && e.key === "`")
+            sidebar.style.display = (sidebar.style.display === "none") ? "block" : "none";
     });
 }
 
@@ -22,7 +22,7 @@ function ToggleOverview(element)
 {
     var hr = element.querySelector("hr");
     hr.style.display = (hr.style.display === "none") ? "block" : "none";
-    element.style.width = (hr.style.display === "none") ? "max-content" : "100vw";
+    element.style.width = (hr.style.display === "none") ? "max-content" : "";
     element.style.height = (hr.style.display === "none") ? "max-content" : "800px";
 
     var p = element.querySelector("div");
