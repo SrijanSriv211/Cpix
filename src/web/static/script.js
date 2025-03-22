@@ -117,7 +117,7 @@ function PerformSearch()
         {
             const history_container = document.getElementById("history");
             history_container.innerHTML = '';
-            
+
             data.history.forEach(item => {
                 const p = document.createElement('p');
                 p.textContent = item;
@@ -189,7 +189,11 @@ function GetOverview(input)
     })
     .then(response => response.json())
     .then(data => {
-        document.querySelector("#overview div").innerHTML = marked.parse(data.overview);
+        if (document.querySelector("#overview div") === null)
+            document.querySelector("#overview-expanded div").innerHTML = marked.parse(data.overview);
+
+        else
+            document.querySelector("#overview div").innerHTML = marked.parse(data.overview);
     })
     .catch(error => {
         console.error('Error:', error);
