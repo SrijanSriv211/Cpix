@@ -8,15 +8,15 @@ C = Color("data\\index.bin", "data\\index_hash_map.bin")
 llm = GROQ("cache\\GroqAPI.txt")
 
 app = Flask(__name__, template_folder="src\\web\\templates", static_folder="src\\web\\static")
-user_history_path = "src\\web\\history\\user_history.txt"
-
+history_path = "cache\\history.txt"
 history = []
-if os.path.isfile(user_history_path) == False:
-    with open(user_history_path, "w", encoding="utf-8") as f:
+
+if os.path.isfile(history_path) == False:
+    with open(history_path, "w", encoding="utf-8") as f:
         f.write("")
 
 else:
-    with open(user_history_path, "r", encoding="utf-8") as f:
+    with open(history_path, "r", encoding="utf-8") as f:
         history = [i.strip() for i in f.readlines()]
 
 bangs = {
@@ -43,7 +43,7 @@ def search():
     # special tokens
     if text == "<|del-history|>":
         history.clear()
-        with open(user_history_path, "w", encoding="utf-8") as f:
+        with open(history_path, "w", encoding="utf-8") as f:
             f.write("")
 
         return jsonify({
@@ -64,7 +64,7 @@ def search():
     if text.lower() not in [i.lower() for i in history]:
         history.insert(0, text)
 
-        with open(user_history_path, "w", encoding="utf-8") as f:
+        with open(history_path, "w", encoding="utf-8") as f:
             f.write("\n".join(history) + "\n")
 
     # use my Color search algo to search.

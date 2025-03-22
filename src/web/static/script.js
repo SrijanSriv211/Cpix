@@ -22,9 +22,12 @@ function ToggleOverview(element)
 {
     var hr = element.querySelector("hr");
     hr.style.display = (hr.style.display === "none") ? "block" : "none";
+    element.style.width = (hr.style.display === "none") ? "max-content" : "100vw";
+    element.style.height = (hr.style.display === "none") ? "max-content" : "800px";
 
     var p = element.querySelector("div");
     document.getElementById("results").style.display = (p.style.display === "none") ? "none" : "grid";
+    document.getElementById("time-taken").style.display = (p.style.display === "none") ? "none" : "block";
     p.style.display = (p.style.display === "none") ? "block" : "none";
 }
 

@@ -3,6 +3,10 @@
 :root
 {
     color-scheme: dark;
+    --black: #000;
+    --light-black: #090909;
+    --lighter-black: #0c0c0c;
+    --even-lighter-black: #0f0f0f;
 }
 
 *
@@ -17,55 +21,53 @@ body
     display: flex;
     color: white;
     font-family: 'Open Sans', sans-serif;
-    background-color: #050505;
+    background-color: var(--light-black);
 }
 
 .sidebar
 {
     padding: 20px;
-    background-color: #000;
+    background-color: var(--black);
     width: 220px;
     min-height: 100vh;
     overflow: hidden;
 }
 
-.sidebar .github
+.sidebar .menu
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: masonry;
+    margin-bottom: 25px;
+}
+
+.sidebar .menu .github
 {
     border-radius: 10px;
     padding: 7px;
     display: flex;
     color: white;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
-    margin-bottom: 5px;
     transition: 0.2s;
 }
 
-.sidebar .github h3
-{
-    font-size: 16px;
-}
-
-.sidebar .github i
-{
-    margin-right: 10px;
-}
-
-.sidebar .github:hover
+.sidebar .menu .github:hover
 {
     transform: scale(1.02);
-    background-color: #050505;
+    background-color: var(--light-black);
     transition: 0.2s;
 }
 
-.sidebar .github:active
+.sidebar .menu .github:active
 {
     transform: scale(0.98);
-    background-color: #0a0a0a;
+    background-color: var(--lighter-black);
     transition: 0.2s;
 }
 
-.sidebar .clear-history
+.sidebar .menu .clear-history
 {
     width: 100%;
     border-radius: 10px;
@@ -78,27 +80,23 @@ body
     color: white;
     align-items: center;
     text-decoration: none;
+    justify-content: center;
     cursor: pointer;
-    background-color: #000;
+    background-color: var(--black);
     transition: 0.2s;
 }
 
-.sidebar .clear-history i
-{
-    margin-right: 10px;
-}
-
-.sidebar .clear-history:hover
+.sidebar .menu .clear-history:hover
 {
     transform: scale(1.02);
-    background-color: #050505;
+    background-color: var(--light-black);
     transition: 0.2s;
 }
 
-.sidebar .clear-history:active
+.sidebar .menu .clear-history:active
 {
     transform: scale(0.98);
-    background-color: #0a0a0a;
+    background-color: var(--lighter-black);
     transition: 0.2s;
 }
 
@@ -106,8 +104,7 @@ body
 {
     flex: 1;
     overflow-y: auto;
-    max-height: calc(90vh - 90px);
-    margin-top: 25px;
+    max-height: calc(100vh - 100px);
 }
 
 .sidebar #history p
@@ -129,14 +126,14 @@ body
 .sidebar #history p:hover
 {
     transform: scale(1.02);
-    background-color: #050505;
+    background-color: var(--light-black);
     transition: 0.2s;
 }
 
 .sidebar #history p:active
 {
     transform: scale(0.98);
-    background-color: #0a0a0a;
+    background-color: var(--lighter-black);
     transition: 0.2s;
 }
 
@@ -157,7 +154,7 @@ body
 {
     font-size: 16px;
     color: #f9f9f9;
-    background-color: #0c0c0c;
+    background-color: var(--even-lighter-black);
     outline: none;
     border: none;
     border-radius: 10px;
@@ -188,7 +185,7 @@ body
     font-size: 20px;
     padding-top: 3px;
     color: #f9f9f9;
-    background-color: #0c0c0c;
+    background-color: var(--even-lighter-black);
     border: none;
     outline: none;
     border-radius: 10px;
@@ -202,17 +199,14 @@ body
 #inputbtn:hover
 {
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 1);
-    background-color: #050505;
+    background-color: var(--light-black);
     transition: 0.2s;
 }
 
 .results-container
 {
     flex: 1;
-    /* margin-right: 20px; */
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
+    padding: 20px;
 }
 
 .results-container #title
@@ -227,45 +221,38 @@ body
 
 .results-container #time-taken-container
 {
-    background-color: #000;
     width: max-content;
-    padding: 20px;
+    margin-top: 10px;
+    margin-left: 10px;
     border-radius: 10px;
     cursor: default;
     margin-bottom: 20px;
     transition: 0.2s;
 }
 
-.results-container #time-taken-container:hover
-{
-    background-color: #0a0a0a;
-    transition: 0.2s;
-}
-
 .results-container #time-taken-container:active
 {
     transform: scale(0.95);
-    background-color: #0c0c0c;
     transition: 0.2s;
 }
 
 .results-container #time-taken
 {
-    font-size: 12px;
+    color: #4e4e4e;
+    font-size: 13px;
     z-index: 999;
     cursor: default;
 }
 
 .results-container #overview
 {
-    background-color: #000;
-    width: max-content;
-    max-height: 700px;
+    background-color: var(--black);
+    max-height: 800px;
+    max-width: 82.5vw;
     padding: 20px;
     border-radius: 10px;
     cursor: default;
     overflow-y: auto;
-    margin-bottom: 10px;
     transition: 0.2s;
 }
 
@@ -273,21 +260,21 @@ body
 {
     max-width: 99rem;
     white-space: pre-wrap;
-    font-size: 14px;
-    margin-top: 10px;
+    font-size: 15px;
+    margin-top: 15px;
     margin-bottom: 20px;
 }
 
 .results-container #overview:hover
 {
-    background-color: #0a0a0a;
+    background-color: var(--lighter-black);
     transition: 0.2s;
 }
 
 .results-container #overview:active
 {
     transform: scale(0.95);
-    background-color: #0c0c0c;
+    background-color: var(--even-lighter-black);
     transition: 0.2s;
 }
 
@@ -297,7 +284,7 @@ body
     padding-right: 20px;
     flex: 1;
     overflow-y: auto;
-    max-height: calc(80vh - 80px);
+    max-height: calc(85vh - 85px);
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(2, 1fr);
@@ -322,7 +309,7 @@ body
 .results-container #results .result-block:hover
 {
     transform: scale(1.02);
-    background-color: #0a0a0a;
+    background-color: var(--lighter-black);
     text-decoration: underline;
     transition: 0.2s;
 }
@@ -330,6 +317,6 @@ body
 .results-container #results .result-block:active
 {
     transform: scale(0.98);
-    background-color: #0c0c0c;
+    background-color: var(--even-lighter-black);
     transition: 0.2s;
 }

@@ -12,12 +12,11 @@
 <body>
     <script src="../static/script.js"></script>
     <div class="sidebar">
-        <button title="Take me Home" class="clear-history" id="home"><i class="material-symbols-outlined">home</i>Home</button>
-        <a class="github" title="Cpix Code" href="https://github.com/Light-Lens/Cpix" target="_blank">
-            <i class="material-symbols-outlined">source</i>
-            <h3>GitHub</h3>
-        </a>
-        <button title="Clear History" class="clear-history" id="clear-history"><i class="material-symbols-outlined">delete</i>History</button>
+        <div class="menu">
+            <button title="Take me Home" class="clear-history" id="home"><i class="material-symbols-outlined">home</i></button>
+            <a class="github" title="Cpix Code" href="https://github.com/Light-Lens/Cpix" target="_blank"><i class="material-symbols-outlined">source</i></a>
+            <button title="Clear History" class="clear-history" id="clear-history"><i class="material-symbols-outlined">delete</i></button>
+        </div>
         <div id="history">
             {% for h in history %}
                 <p onclick="PutQueryInSearch(this);">{{ h }}</p>
@@ -26,7 +25,7 @@
     </div>
     <div class="results-container">
         <h1 id="title">Cpix</h1>
-        <div id="overview" onclick="ToggleOverview(this);" style="width: max-content;">
+        <div id="overview" onclick="ToggleOverview(this);" style="width: max-content; height: max-content;">
             <h3>AI overview</h3>
             <hr style="display: none;">
             <div style="display: none;">{{ overview }}</div>
