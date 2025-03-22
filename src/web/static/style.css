@@ -270,6 +270,25 @@ body
     margin-bottom: 20px;
 }
 
+.results-container #overview-expanded
+{
+    background-color: var(--black);
+    max-height: 800px;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: default;
+    overflow-y: auto;
+    transition: 0.2s;
+}
+
+.results-container #overview-expanded div
+{
+    white-space: pre-wrap;
+    font-size: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
 .results-container #overview:hover
 {
     background-color: var(--lighter-black);
