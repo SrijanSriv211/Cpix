@@ -21,6 +21,9 @@ class Color:
         ids = list(set(flatten(enc.encode(query.lower()))))
         sites_idx = set()
         for id in ids:
+            if str(id) not in self.hash_map.keys():
+                continue
+
             sites_idx.update(self.hash_map[str(id)])
 
         return self.rank(query, [self.index[i] for i in list(set(sites_idx))])
@@ -29,7 +32,7 @@ class Color:
         if not results:
             return []
 
-        raw_query = query.lower()
+        raw_query = query.lower().strip()
         cleaned_query = clean_sentence(raw_query)
         query_tokens = set(cleaned_query.split())
         ranked_results = []
@@ -78,7 +81,7 @@ class Color:
             url_len_score = 1 / (url_length / 100 + 1) # normalize URL length effect
 
             # combined score with weights
-            score = query_coverage * 5.0 + density_similarity * 2.0 + position_score * 1.5 + url_score * 0.5 + url_len_score * 0.2 + match_count
+            score = (query_coverage * 5.0 + density_similarity * 2.0 + position_score * 1.5 + url_score * 0.5 + url_len_score * 0.2 + match_count)/6
 
             # optional: boost exact title matches
             if cleaned_query == cleaned_title:
